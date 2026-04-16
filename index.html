@@ -1358,18 +1358,22 @@
         </div>
       </div>
       <div class="fade-up" style="transition-delay:.15s">
-        <form class="contact-form">
+        <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="53724c23-0f3d-45e1-9877-87639f58fde2">
+          <input type="hidden" name="subject" value="Новая заявка с сайта Молчанова">
+          <input type="hidden" name="from_name" value="Molchanov Site">
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none">
           <div class="form-group">
             <label>Ваше имя</label>
-            <input type="text" placeholder="Александр">
+            <input type="text" name="name" placeholder="Александр" required>
           </div>
           <div class="form-group">
             <label>Email или Telegram</label>
-            <input type="text" placeholder="@username или email@gmail.com">
+            <input type="text" name="contact" placeholder="@username или email@gmail.com" required>
           </div>
           <div class="form-group">
             <label>Что нужно сделать?</label>
-            <textarea placeholder="Нужны фото автопарка для сайта, или рекламный ролик для соцсетей, или серия комиксов для Instagram..."></textarea>
+            <textarea name="message" placeholder="Нужны фото автопарка для сайта, или рекламный ролик для соцсетей, или серия комиксов для Instagram..." required></textarea>
           </div>
           <button type="submit" class="btn btn-primary form-submit">Отправить — отвечу сегодня →</button>
         </form>
