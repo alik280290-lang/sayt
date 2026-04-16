@@ -1493,6 +1493,33 @@
     });
   });
 
+  // ─── CONTACT FORM ───
+  const contactForm = document.querySelector('.contact-form');
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = contactForm.querySelector('.form-submit');
+    const originalText = btn.textContent;
+    btn.textContent = 'Отправляю...';
+    btn.disabled = true;
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: new FormData(contactForm)
+      });
+      if (res.ok) {
+        contactForm.innerHTML = '<div style="text-align:center;padding:40px 0"><div style="font-size:32px;margin-bottom:16px">✓</div><h3 style="margin-bottom:8px">Заявка отправлена</h3><p style="color:var(--text-2)">Отвечу в течение часа в рабочее время.</p></div>';
+      } else {
+        btn.textContent = 'Ошибка — попробуйте ещё раз';
+        btn.disabled = false;
+        setTimeout(() => { btn.textContent = originalText; }, 3000);
+      }
+    } catch {
+      btn.textContent = 'Ошибка сети — попробуйте ещё раз';
+      btn.disabled = false;
+      setTimeout(() => { btn.textContent = originalText; }, 3000);
+    }
+  });
+
   // ─── SMOOTH ANCHOR SCROLL ───
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
