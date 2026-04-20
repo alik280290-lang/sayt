@@ -959,7 +959,7 @@ html.lenis, html.lenis body { height: auto; }
       </p>
     </div>
     <div class="hero-video-frame">
-      <iframe src="https://kinescope.io/embed/b9LqTwdSKuvSTM2k3q5TpM?autoplay=1&muted=1&loop=1" loading="lazy" allow="autoplay; fullscreen" allowfullscreen frameborder="0"></iframe>
+      <iframe data-src="https://kinescope.io/embed/b9LqTwdSKuvSTM2k3q5TpM?autoplay=1&muted=1&loop=1" loading="lazy" allow="autoplay; fullscreen" allowfullscreen frameborder="0"></iframe>
       <div class="caption">
         <span class="title">Kabrita × VIDMK</span>
         <span class="meta">AI Realism '26</span>
@@ -1009,7 +1009,7 @@ html.lenis, html.lenis body { height: auto; }
 
   <article class="work">
     <div class="work-bg">
-      <iframe src="https://kinescope.io/embed/b9LqTwdSKuvSTM2k3q5TpM?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
+      <iframe data-src="https://kinescope.io/embed/b9LqTwdSKuvSTM2k3q5TpM?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
     </div>
     <div class="work-content">
       <div class="container work-top">
@@ -1042,7 +1042,7 @@ html.lenis, html.lenis body { height: auto; }
 
   <article class="work">
     <div class="work-bg">
-      <iframe src="https://kinescope.io/embed/usf3Yks5jhxMjAZpEuSVJF?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
+      <iframe data-src="https://kinescope.io/embed/usf3Yks5jhxMjAZpEuSVJF?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
     </div>
     <div class="work-content">
       <div class="container work-top">
@@ -1078,9 +1078,9 @@ html.lenis, html.lenis body { height: auto; }
 
   <article class="work">
     <div class="work-bg work-bg-triple">
-      <iframe src="https://kinescope.io/embed/spExqPv8uPShkjC8QXKiMj?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
-      <iframe src="https://kinescope.io/embed/v7ynY9RVf1sKaf9irnRqaC?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
-      <iframe src="https://kinescope.io/embed/vR1rpLr9VBw9SLU7oMHJhQ?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
+      <iframe data-src="https://kinescope.io/embed/spExqPv8uPShkjC8QXKiMj?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
+      <iframe data-src="https://kinescope.io/embed/v7ynY9RVf1sKaf9irnRqaC?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
+      <iframe data-src="https://kinescope.io/embed/vR1rpLr9VBw9SLU7oMHJhQ?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
     </div>
     <div class="work-content">
       <div class="container work-top">
@@ -1113,7 +1113,7 @@ html.lenis, html.lenis body { height: auto; }
 
   <article class="work">
     <div class="work-bg">
-      <iframe src="https://kinescope.io/embed/h6TwvoLaZAV3WNnWsXgFqX?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
+      <iframe data-src="https://kinescope.io/embed/h6TwvoLaZAV3WNnWsXgFqX?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
     </div>
     <div class="work-content">
       <div class="container work-top">
@@ -1145,8 +1145,8 @@ html.lenis, html.lenis body { height: auto; }
 
   <article class="work">
     <div class="work-bg work-bg-double">
-      <iframe src="https://kinescope.io/embed/j1dmyNptpPGPkZirbVGTVP?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
-      <iframe src="https://kinescope.io/embed/5MQTuggJrt8s8q76q37fGy?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
+      <iframe data-src="https://kinescope.io/embed/j1dmyNptpPGPkZirbVGTVP?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
+      <iframe data-src="https://kinescope.io/embed/5MQTuggJrt8s8q76q37fGy?autoplay=1&muted=1&loop=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0" loading="lazy"></iframe>
     </div>
     <div class="work-content">
       <div class="container work-top">
@@ -1689,6 +1689,21 @@ const lenis = new Lenis({
 lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
+
+// ═══ Smart video lazy-load + pause when out of viewport ═══
+const videoIO = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const iframe = entry.target;
+    const target = iframe.dataset.src;
+    if (!target) return;
+    if (entry.isIntersecting) {
+      if (iframe.src !== target) iframe.src = target;
+    } else {
+      if (iframe.src) iframe.src = '';
+    }
+  });
+}, { threshold: 0.15, rootMargin: '50px' });
+document.querySelectorAll('iframe[data-src]').forEach(iframe => videoIO.observe(iframe));
 
 // 1. HERO — text reveal by words
 gsap.to(".hero-h1 .word", {
