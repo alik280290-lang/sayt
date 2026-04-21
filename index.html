@@ -34,7 +34,7 @@
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Александр Молчанов",
-  "alternateName": "Alexander Molchanov",
+  "alternateName": "Aleksandr Molchanov",
   "url": "https://alik280290-lang.github.io/sayt/",
   "jobTitle": "AI-режиссёр / AI-продакшн специалист",
   "description": "AI-видео и фото для брендов и агентств. Победитель AI Realism + People's Choice, VIDMK 2026.",
@@ -185,9 +185,11 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 
 /* ─── HERO — minimal ─── */
 .hero {
-  min-height: 100vh; padding: 180px var(--gutter) 80px;
-  position: relative; display: flex; flex-direction: column; justify-content: space-between;
+  padding: 70px var(--gutter) 40px;
+  position: relative; display: flex; flex-direction: column;
 }
+.hero-meta { margin-bottom: 20px; }
+.hero-body { margin-bottom: 32px; }
 .hero::before {
   content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
   background: radial-gradient(ellipse at 70% 30%, rgba(184,114,63,0.08), transparent 50%),
@@ -196,6 +198,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 .hero > * { position: relative; z-index: 1; }
 .hero-meta {
   display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 12px 32px;
   padding-bottom: 18px; border-bottom: 1px solid var(--rule);
 }
 .hero-meta .dot {
@@ -247,9 +250,10 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 .hero-video-frame .caption {
   position: absolute; bottom: 16px; left: 16px; right: 16px; z-index: 3;
-  display: flex; justify-content: space-between; align-items: baseline;
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
   padding-top: 12px; border-top: 1px solid rgba(237,229,214,0.25);
 }
+.hero-video-frame .caption .meta { text-align: right; line-height: 1.5; }
 .hero-video-frame .caption .title {
   font-family: var(--serif); font-style: italic; font-size: 16px; font-weight: 500; color: var(--ivory);
 }
@@ -263,9 +267,9 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 .hero-h1 {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(72px, 12vw, 200px); line-height: 0.88; letter-spacing: -0.05em;
+  font-size: clamp(36px, 6vw, 100px); line-height: 0.95; letter-spacing: -0.04em;
   color: var(--ivory);
-  font-variation-settings: "opsz" 96;
+  font-variation-settings: "opsz" 72;
 }
 .hero-h1 .italic { font-style: italic; color: var(--copper); font-weight: 400; }
 
@@ -307,10 +311,32 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
 }
 .manifesto-grid {
-  display: grid; grid-template-columns: 1fr 3fr; gap: 80px;
-  max-width: 1440px; margin: 0 auto;
+  display: grid; grid-template-columns: 320px 1fr; gap: 80px;
+  max-width: 1440px; margin: 0 auto; align-items: start;
 }
-.manifesto-grid .meta { color: var(--cream-3); }
+.manifesto-grid .meta { color: var(--cream-3); margin-bottom: 24px; }
+.manifesto-photo {
+  aspect-ratio: 3/4;
+  border: 1px solid var(--rule);
+  background: var(--ink-2);
+  position: relative; overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+}
+.manifesto-photo img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.manifesto-photo.no-photo::after {
+  content: "Фото · скоро";
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-style: italic; font-size: 18px;
+  color: var(--cream-3); text-align: center;
+  font-variation-settings: "opsz" 20;
+}
+.manifesto-photo.no-photo::before {
+  content: ""; position: absolute; inset: 16px;
+  border: 1px dashed rgba(237,229,214,0.12);
+}
 .manifesto-text {
   font-family: var(--serif); font-weight: 400;
   font-size: clamp(34px, 4vw, 64px); line-height: 1.15; letter-spacing: -0.03em;
@@ -320,14 +346,15 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 .manifesto-text .italic { font-style: italic; color: var(--copper); }
 .manifesto-text .dim { color: var(--cream-2); }
 @media (max-width: 1024px) {
-  .manifesto { padding: 120px var(--gutter); }
+  .manifesto { padding: 80px var(--gutter); }
   .manifesto-grid { grid-template-columns: 1fr; gap: 32px; }
+  .manifesto-photo { max-width: 260px; }
 }
 
 /* ─── HERO TEXT REVEAL ─── */
 .word-line { display: block; overflow: hidden; }
 .word-wrap { display: inline-block; overflow: hidden; vertical-align: top; line-height: inherit; padding-bottom: 0.05em; margin-bottom: -0.05em; }
-.word { display: inline-block; transform: translateY(110%); will-change: transform; }
+.word { display: inline-block; will-change: transform; }
 .word + .word-wrap { margin-left: 0.28em; }
 
 /* ─── WORKS — vertical full-bleed scenes ─── */
@@ -1059,7 +1086,7 @@ html.lenis, html.lenis body { height: auto; }
 <nav class="nav" id="nav">
   <a href="#" class="nav-logo">
     <span class="mark">am</span>
-    <span class="name">Alexander Molchanov</span>
+    <span class="name">Aleksandr Molchanov</span>
   </a>
   <ul class="nav-links">
     <li><a href="#works">Работы</a></li>
@@ -1112,7 +1139,7 @@ html.lenis, html.lenis body { height: auto; }
       <iframe data-src="https://kinescope.io/embed/b9LqTwdSKuvSTM2k3q5TpM?autoplay=1&muted=1&loop=1" loading="lazy" allow="autoplay; fullscreen" allowfullscreen frameborder="0"></iframe>
       <div class="caption">
         <span class="title">Kabrita × VIDMK</span>
-        <span class="meta">AI Realism '26</span>
+        <span class="meta">AI Realism '26<br>People's Choice '26</span>
       </div>
     </div>
   </div>
@@ -1146,10 +1173,17 @@ html.lenis, html.lenis body { height: auto; }
 <!-- ═══ MANIFESTO ═══ -->
 <section class="manifesto">
   <div class="manifesto-grid">
-    <div class="label meta">— О подходе</div>
-    <p class="manifesto-text">
-      <span class="dim">Я не делаю «контент с помощью AI».</span> Я делаю продакшн <span class="italic">уровня большой студии</span> — режиссура, свет, кадрирование, монтаж — <span class="dim">где AI заменяет 5 человек на площадке, а не редактора.</span>
-    </p>
+    <div class="manifesto-photo">
+      <img src="https://raw.githubusercontent.com/alik280290-lang/sayt/main/alex.png"
+           alt="Александр Молчанов"
+           onerror="this.parentElement.classList.add('no-photo')">
+    </div>
+    <div class="manifesto-content">
+      <div class="label meta">— О подходе</div>
+      <p class="manifesto-text">
+        <span class="dim">Я не делаю «контент с помощью AI».</span> Я делаю продакшн <span class="italic">уровня большой студии</span> — режиссура, свет, кадрирование, монтаж — <span class="dim">где AI заменяет 5 человек на площадке, а не редактора.</span>
+      </p>
+    </div>
   </div>
 </section>
 
@@ -1927,20 +1961,20 @@ const videoIO = new IntersectionObserver((entries) => {
 document.querySelectorAll('iframe[data-src]').forEach(iframe => videoIO.observe(iframe));
 
 // 1. HERO — text reveal by words
-gsap.to(".hero-h1 .word", {
-  yPercent: 0,
+gsap.from(".hero-h1 .word", {
+  yPercent: 110,
   duration: 1.2,
   ease: "expo.out",
   stagger: 0.1,
-  delay: 0.3
+  delay: 0.2
 });
-gsap.from(".hero-sub, .hero-foot, .hero-meta", {
+gsap.from(".hero-sub, .hero-ctas", {
   opacity: 0,
   y: 24,
-  duration: 1,
+  duration: 0.9,
   ease: "expo.out",
-  stagger: 0.15,
-  delay: 0.9
+  stagger: 0.12,
+  delay: 0.6
 });
 
 // 2. WORKS — vertical mask reveal per scene (Cappen-style)
