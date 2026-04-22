@@ -8,6 +8,11 @@
 <link rel="canonical" href="https://alik280290-lang.github.io/sayt/">
 <meta name="theme-color" content="#0A0908">
 
+<!-- Security headers (defense in depth) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://raw.githubusercontent.com; frame-src https://kinescope.io; connect-src 'self' https://api.web3forms.com; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://alik280290-lang.github.io/sayt/">
@@ -63,9 +68,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
+        integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"
+        integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"
+        integrity="sha384-eD5ubmuCcvTdCADWuSchJYE7wcj2nzNr0itbrh6w/KJyBiltSZ8w3VFRBSWu5YQ8"
+        crossorigin="anonymous"></script>
 <style>
 :root {
   --ink: #0A0908;
@@ -560,6 +571,43 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 @media (max-width: 900px) {
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 56px 40px; }
 }
+
+/* ─── ABOUT ─── */
+.about { padding: 140px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.about-content { max-width: 880px; margin-top: 40px; }
+.about-text p {
+  font-family: var(--serif); font-weight: 400;
+  font-size: 19px; line-height: 1.65; color: var(--cream);
+  margin-bottom: 22px;
+  font-variation-settings: "opsz" 20;
+}
+.about-text p:last-child { margin-bottom: 0; }
+.about-text .lead {
+  font-size: 24px; color: var(--ivory);
+  font-variation-settings: "opsz" 24;
+}
+.about-text .lead .italic { font-style: italic; color: var(--copper); }
+
+.about-diplomas { margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--rule); }
+.about-diplomas .lbl { color: var(--cream-2); margin-bottom: 24px; }
+.diploma-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+@media (max-width: 1200px) { .diploma-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+.diploma-thumb {
+  background: var(--ink-2); border: 1px solid var(--rule);
+  aspect-ratio: 3/4; overflow: hidden; cursor: pointer; padding: 0; position: relative;
+  transition: border-color 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.diploma-thumb:hover { border-color: var(--copper); transform: translateY(-4px); }
+.diploma-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.diploma-thumb.no-img::after {
+  content: attr(data-label);
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-style: italic; font-size: 15px;
+  color: var(--cream-3); padding: 16px; text-align: center;
+}
+.diploma-thumb.no-img img { display: none; }
+@media (max-width: 600px) { .diploma-grid { grid-template-columns: 1fr 1fr; } }
 
 /* ─── FOR WHOM ─── */
 .for-whom { padding: 140px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
@@ -1422,6 +1470,52 @@ html.lenis, html.lenis body { height: auto; }
   </div>
 </section>
 
+<!-- ═══ ABOUT ═══ -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="num italic">★</div>
+        <div class="label lbl">Об авторе</div>
+      </div>
+      <div>
+        <h2>От первого <span class="italic">проекта</span> до VIDMK 2026.</h2>
+      </div>
+    </div>
+    <div class="about-content reveal">
+      <div class="about-text">
+        <p class="lead">Я работаю с контентом <span class="italic">с 2018 года,</span> а с 2024 года сосредоточился на AI-продакшене — когда Midjourney, Runway и Sora вышли на уровень, пригодный для полноценной коммерческой работы.</p>
+        <p>Прошёл специализированное обучение по AI-режиссуре и нарративному контенту. Я воспринимаю ИИ не как визуальный эффект, а как <span class="italic">новую производственную среду,</span> где промпт выполняет роль сценария, генерация становится этапом съёмки, а качество результата определяется режиссурой, отбором и точной постобработкой.</p>
+        <p>В 2026 году я занял два первых места на хакатоне VIDMK — в номинациях <span class="italic">AI Realism</span> и <span class="italic">People's Choice</span>. Для меня это стало подтверждением того, что AI-продакшн может достигать уровня, сопоставимого с классическим визуальным производством — если работать с ним профессионально, на уровне идеи, структуры и деталей.</p>
+        <p>Сегодня я сотрудничаю с брендами и агентствами как контент-партнёр, создавая AI-видео, AI-фото и визуальные концепции для коммерческих и коммуникационных задач.</p>
+      </div>
+    </div>
+    <div class="about-diplomas reveal">
+      <div class="label lbl">Дипломы и грамоты</div>
+      <div class="diploma-grid">
+        <button class="diploma-thumb" data-gallery="diplomas" data-index="0" data-label="Диплом 01 · скоро">
+          <img src="https://raw.githubusercontent.com/alik280290-lang/sayt/main/diploma-1.png" alt="Диплом 1" onerror="this.parentElement.classList.add('no-img')">
+        </button>
+        <button class="diploma-thumb" data-gallery="diplomas" data-index="1" data-label="Диплом 02 · скоро">
+          <img src="https://raw.githubusercontent.com/alik280290-lang/sayt/main/diploma-2.png" alt="Диплом 2" onerror="this.parentElement.classList.add('no-img')">
+        </button>
+        <button class="diploma-thumb" data-gallery="diplomas" data-index="2" data-label="Диплом 03 · скоро">
+          <img src="https://raw.githubusercontent.com/alik280290-lang/sayt/main/diploma-3.png" alt="Диплом 3" onerror="this.parentElement.classList.add('no-img')">
+        </button>
+        <button class="diploma-thumb" data-gallery="diplomas" data-index="3" data-label="Диплом 04 · скоро">
+          <img src="https://raw.githubusercontent.com/alik280290-lang/sayt/main/diploma-4.png" alt="Диплом 4" onerror="this.parentElement.classList.add('no-img')">
+        </button>
+        <button class="diploma-thumb" data-gallery="diplomas" data-index="4" data-label="Грамота 01 · скоро">
+          <img src="https://raw.githubusercontent.com/alik280290-lang/sayt/main/gramota-1.jpeg" alt="Грамота 1" onerror="this.parentElement.classList.add('no-img')">
+        </button>
+        <button class="diploma-thumb" data-gallery="diplomas" data-index="5" data-label="Грамота 02 · скоро">
+          <img src="https://raw.githubusercontent.com/alik280290-lang/sayt/main/gramota-2.jpeg" alt="Грамота 2" onerror="this.parentElement.classList.add('no-img')">
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ FOR WHOM ═══ -->
 <section class="for-whom">
   <div class="container">
@@ -2102,6 +2196,17 @@ const galleries = {
       { src: 'https://raw.githubusercontent.com/alik280290-lang/sayt/main/okna-3.png', type: 'image' },
       { src: 'https://raw.githubusercontent.com/alik280290-lang/sayt/main/okna-4.png', type: 'image' }
     ]
+  },
+  diplomas: {
+    title: 'Дипломы и грамоты',
+    items: [
+      { src: 'https://raw.githubusercontent.com/alik280290-lang/sayt/main/diploma-1.png', type: 'image' },
+      { src: 'https://raw.githubusercontent.com/alik280290-lang/sayt/main/diploma-2.png', type: 'image' },
+      { src: 'https://raw.githubusercontent.com/alik280290-lang/sayt/main/diploma-3.png', type: 'image' },
+      { src: 'https://raw.githubusercontent.com/alik280290-lang/sayt/main/diploma-4.png', type: 'image' },
+      { src: 'https://raw.githubusercontent.com/alik280290-lang/sayt/main/gramota-1.jpeg', type: 'image' },
+      { src: 'https://raw.githubusercontent.com/alik280290-lang/sayt/main/gramota-2.jpeg', type: 'image' }
+    ]
   }
 };
 
@@ -2134,11 +2239,11 @@ function lbRender() {
     dot.classList.toggle('active', i === lbState.index);
   });
 }
-function lbOpen(key) {
+function lbOpen(key, startIndex) {
   const g = galleries[key];
   if (!g) return;
   lbState.items = g.items;
-  lbState.index = 0;
+  lbState.index = Math.min(Math.max(startIndex || 0, 0), g.items.length - 1);
   lbTitle.textContent = g.title;
   lbTotal.textContent = g.items.length;
   // build thumbnails
@@ -2175,7 +2280,8 @@ function lbPrev() {
 document.querySelectorAll('[data-gallery]').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
-    lbOpen(btn.dataset.gallery);
+    const idx = btn.dataset.index ? parseInt(btn.dataset.index, 10) : 0;
+    lbOpen(btn.dataset.gallery, idx);
   });
 });
 document.getElementById('lbClose').addEventListener('click', lbClose);
