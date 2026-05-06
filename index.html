@@ -113,7 +113,7 @@ body {
   overflow-x: hidden;
   cursor: none;
 }
-@media (max-width: 900px) { body { cursor: auto; --gutter: 24px; } }
+@media (max-width: 900px) { body { cursor: auto; --gutter: 24px; font-size: 16px; line-height: 1.6; } }
 
 .cursor {
   position: fixed; width: 8px; height: 8px;
@@ -298,6 +298,31 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-variation-settings: "opsz" 24;
 }
 
+.hero-markers {
+  list-style: none; padding: 0; margin: 6px 0 4px;
+  display: flex; flex-wrap: wrap; gap: 10px 14px;
+}
+.hero-markers li {
+  font-family: var(--sans); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.04em; color: var(--cream);
+  padding: 8px 14px; border: 1px solid var(--rule-strong); border-radius: 999px;
+  display: inline-flex; align-items: center;
+}
+.hero-markers li::before {
+  content: ""; display: inline-block;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--copper); margin-right: 10px;
+}
+.hero-microtrust {
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px; color: var(--cream-2);
+  margin-top: 14px; max-width: 560px;
+  font-variation-settings: "opsz" 18;
+}
+@media (max-width: 600px) {
+  .hero-markers li { font-size: 11px; padding: 7px 12px; }
+  .hero-microtrust { font-size: 13px; }
+}
 .hero-foot {
   display: flex; justify-content: space-between; align-items: end; gap: 40px;
   padding-top: 24px; border-top: 1px solid var(--rule); flex-wrap: wrap;
@@ -363,6 +388,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 .manifesto-text .italic { font-style: italic; color: var(--copper); }
 .manifesto-text .dim { color: var(--cream-2); }
+.manifesto-text.manifesto-second { font-size: clamp(22px, 2.4vw, 32px); margin-top: 28px; color: var(--cream); font-variation-settings: "opsz" 32; }
 @media (max-width: 1024px) {
   .manifesto { padding: 80px var(--gutter); }
   .manifesto-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -390,6 +416,21 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 .work.in-view .work-bg { clip-path: inset(0% 0 0% 0); }
 
 /* big type passes between sections */
+.trust-strip { padding: 56px var(--gutter); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--ink-2); }
+.trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; align-items: start; }
+.trust-item .label { color: var(--copper); display: block; margin-bottom: 12px; }
+.trust-item p {
+  font-family: var(--serif); font-weight: 400;
+  font-size: 18px; line-height: 1.45; color: var(--ivory);
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 24;
+}
+@media (max-width: 900px) {
+  .trust-strip { padding: 36px var(--gutter); }
+  .trust-grid { grid-template-columns: 1fr; gap: 28px; }
+  .trust-item p { font-size: 16px; }
+}
+
 .big-type-strip {
   padding: 0; overflow: hidden; position: relative;
   border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
@@ -677,6 +718,28 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-variation-settings: "opsz" 72;
 }
 .fw-grid h2 .italic { font-style: italic; color: var(--copper); }
+.fw-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+.fw-card {
+  display: grid; grid-template-columns: 56px 1fr; gap: 18px;
+  padding: 28px 28px;
+  border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  align-items: start;
+}
+.fw-card .num { font-family: var(--serif); font-style: italic; font-size: 28px; color: var(--copper); line-height: 1; padding-top: 4px; font-variation-settings: "opsz" 28; }
+.fw-card-body h3 {
+  font-family: var(--serif); font-weight: 500;
+  font-size: 22px; line-height: 1.2; letter-spacing: -0.02em;
+  color: var(--ivory); margin-bottom: 10px;
+  font-variation-settings: "opsz" 28;
+}
+.fw-card-body p {
+  font-family: var(--sans); font-size: 14px; line-height: 1.55;
+  color: var(--cream-2);
+}
+@media (max-width: 900px) {
+  .fw-cards { grid-template-columns: 1fr; }
+  .fw-card { padding: 22px 0; border-right: none; }
+}
 .fw-list { display: flex; flex-direction: column; gap: 0; }
 .fw-row {
   display: grid; grid-template-columns: 80px 1fr; gap: 32px;
@@ -721,6 +784,17 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-variation-settings: "opsz" 20;
 }
 .pillar .formats { color: var(--cream-3); margin-top: 8px; }
+.pillar-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0; }
+.pillar-list li {
+  font-family: var(--sans); font-size: 13px; line-height: 1.5; color: var(--cream);
+  padding: 12px 0 12px 22px; position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+.pillar-list li:last-child { border-bottom: none; }
+.pillar-list li::before {
+  content: ""; position: absolute; left: 0; top: 19px;
+  width: 12px; height: 1px; background: var(--copper);
+}
 .pillar-cta {
   margin-top: auto; align-self: flex-start;
   font-family: var(--sans); font-size: 12px; font-weight: 600;
@@ -762,6 +836,13 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   transition: background 0.6s var(--ease);
 }
 .process-step:last-child { border-right: none; }
+.process-sign {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(18px, 1.6vw, 22px); line-height: 1.4;
+  color: var(--cream-2); text-align: center; margin-top: 48px;
+  font-variation-settings: "opsz" 24;
+}
+@media (max-width: 900px) { .process-sign { margin-top: 32px; font-size: 16px; } }
 .process-step:hover { background: var(--ink-2); }
 .process-step .num {
   font-family: var(--serif); font-weight: 400; font-style: italic;
@@ -814,6 +895,11 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 .mid-cta-actions a:hover { background: var(--copper); color: var(--ink); border-color: var(--copper); }
 .mid-cta-actions a.primary { background: var(--copper); color: var(--ink); border-color: var(--copper); }
 .mid-cta-actions a.primary:hover { background: var(--copper-2); border-color: var(--copper-2); }
+.mid-cta-sign {
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px; color: var(--cream-2); margin-top: 24px;
+  font-variation-settings: "opsz" 18;
+}
 @media (max-width: 900px) { .mid-cta { padding: 80px var(--gutter); } }
 
 /* ─── TESTIMONIALS ─── */
@@ -1256,7 +1342,7 @@ html.lenis, html.lenis body { height: auto; }
 <body>
 
 <div class="cursor" id="cursor"></div>
-<a href="#midcta" class="sticky-cta" id="stickyCta"><span class="dot"></span>Обсудить задачу</a>
+<a href="https://t.me/alikmolchanov" class="sticky-cta" id="stickyCta"><span class="dot"></span>Написать в Telegram</a>
 <div class="progress" id="progress"></div>
 
 <!-- ═══ NAV ═══ -->
@@ -1272,11 +1358,7 @@ html.lenis, html.lenis body { height: auto; }
     <li><a href="#pricing">Цены</a></li>
   </ul>
   <div class="nav-right">
-    <div class="lang">
-      <span class="active">RU</span>
-      <span>EN</span>
-    </div>
-    <a href="#contact" class="nav-cta magnetic" data-magnetic>Обсудить</a>
+    <a href="https://t.me/alikmolchanov" class="nav-cta magnetic" data-magnetic>Написать в Telegram</a>
   </div>
   <div class="burger" id="burger"><span></span><span></span><span></span></div>
 </nav>
@@ -1287,7 +1369,7 @@ html.lenis, html.lenis body { height: auto; }
   <a href="#services">Услуги</a>
   <a href="#process">Процесс</a>
   <a href="#pricing">Цены</a>
-  <a href="#contact">Контакт</a>
+  <a href="https://t.me/alikmolchanov">Написать в Telegram</a>
 </div>
 
 <!-- ═══ HERO — minimal ═══ -->
@@ -1300,17 +1382,23 @@ html.lenis, html.lenis body { height: auto; }
   <div class="container hero-body">
     <div class="hero-text">
       <h1 class="hero-h1">
-        <span class="word-line"><span class="word-wrap"><span class="word">AI-видео</span></span><span class="word-wrap"><span class="word">и</span></span><span class="word-wrap"><span class="word">фото</span></span></span>
-        <span class="word-line"><span class="word-wrap"><span class="word">для</span></span><span class="word-wrap"><span class="word">рекламы —</span></span></span>
+        <span class="word-line"><span class="word-wrap"><span class="word">AI-видео</span></span><span class="word-wrap"><span class="word">и</span></span><span class="word-wrap"><span class="word">визуалы</span></span></span>
+        <span class="word-line"><span class="word-wrap"><span class="word">для</span></span><span class="word-wrap"><span class="word">бизнеса —</span></span></span>
         <span class="word-line"><span class="word-wrap"><span class="word italic">без съёмочной группы.</span></span></span>
       </h1>
       <p class="hero-sub">
-        Короткие ролики для рекламы, AI-визуалы для товаров и серии комиксов для бизнеса — без студии, без съёмочной группы и без долгих согласований. Первый черновик за 48 часов, дальше правки и готово.
+        Рекламные ролики, AI-фото и серии комиксов для брендов, локального бизнеса и агентств. Первый черновик — за 48 часов. Без студии, без выезда, без недель согласований.
       </p>
+      <ul class="hero-markers">
+        <li>Первый черновик за 48 часов</li>
+        <li>Для рекламы, соцсетей и теста креативов</li>
+        <li>Правки включены в работу</li>
+      </ul>
       <div class="hero-ctas">
-        <a href="#midcta" class="cta-primary">Обсудить задачу <span class="arrow">→</span></a>
+        <a href="https://t.me/alikmolchanov" class="cta-primary">Обсудить проект в Telegram <span class="arrow">→</span></a>
         <a href="#works" class="cta-ghost">Смотреть работы</a>
       </div>
+      <p class="hero-microtrust">Отвечу лично в рабочее время и предложу формат под вашу задачу.</p>
     </div>
     <div class="hero-video-frame">
       <iframe data-src="https://kinescope.io/embed/b9LqTwdSKuvSTM2k3q5TpM?autoplay=1&muted=1&loop=1" loading="lazy" allow="autoplay; fullscreen" allowfullscreen frameborder="0"></iframe>
@@ -1331,6 +1419,24 @@ html.lenis, html.lenis body { height: auto; }
     <div class="scroll-cue">
       <span>Прокрутите чтобы посмотреть работы</span>
       <span class="arrow"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRUST STRIP ═══ -->
+<section class="trust-strip">
+  <div class="container trust-grid">
+    <div class="trust-item">
+      <span class="label">★ Награды</span>
+      <p>Победитель VIDMK 2026: AI Realism + People's Choice.</p>
+    </div>
+    <div class="trust-item">
+      <span class="label">Аудитория</span>
+      <p>Работаю с брендами, локальным бизнесом и агентствами.</p>
+    </div>
+    <div class="trust-item">
+      <span class="label">Форматы</span>
+      <p>От продуктовых визуалов до рекламных роликов и серийного контента.</p>
     </div>
   </div>
 </section>
@@ -1358,7 +1464,10 @@ html.lenis, html.lenis body { height: auto; }
     <div class="manifesto-content">
       <div class="label meta">— О подходе</div>
       <p class="manifesto-text">
-        <span class="dim">Я не делаю «контент с помощью AI».</span> Я делаю продакшн <span class="italic">уровня большой студии</span> — режиссура, свет, кадрирование, монтаж — <span class="dim">где AI заменяет 5 человек на площадке, а не редактора.</span>
+        <span class="dim">Я не делаю «контент с помощью AI».</span> Я делаю продакшн-задачи, где AI заменяет <span class="italic">часть съёмочной команды</span>: препрод, референсы, генерацию, постановку кадра и постобработку.
+      </p>
+      <p class="manifesto-text manifesto-second">
+        То есть вы получаете не игрушку и не случайную нейрокартинку, а готовый материал под бизнес-задачу: <span class="italic">рекламу, соцсети, каталог, тест креативов или контент-серию.</span>
       </p>
     </div>
   </div>
@@ -1621,8 +1730,8 @@ html.lenis, html.lenis body { height: auto; }
     <div class="about-cta reveal">
       <div class="question">Хочется такой же продакшн для бренда?</div>
       <div class="actions">
-        <a href="#contact" class="btn-primary">Обсудить проект <span>→</span></a>
-        <a href="https://t.me/alikmolchanov" class="btn-secondary">Написать в Telegram</a>
+        <a href="https://t.me/alikmolchanov" class="btn-primary">Написать в Telegram <span>→</span></a>
+        <a href="#works" class="btn-secondary">Смотреть работы</a>
       </div>
     </div>
   </div>
@@ -1658,25 +1767,37 @@ html.lenis, html.lenis body { height: auto; }
     <div class="fw-grid">
       <div>
         <div class="label" style="margin-bottom: 16px;">Кому подходит</div>
-        <h2>Это <span class="italic">для вас</span>, если:</h2>
+        <h2>Это для вас, если нужен <span class="italic">контент</span>, а обычная съёмка — слишком долгая или дорогая.</h2>
       </div>
       <div>
-        <div class="fw-list">
-          <div class="fw-row">
+        <div class="fw-cards">
+          <div class="fw-card">
             <div class="num">01</div>
-            <div class="text">Вы <span class="italic">малый бизнес или локальные услуги</span> — нужен регулярный контент (ролики, сторис, серии комиксов), но не хочется нанимать команду или платить за студию.</div>
+            <div class="fw-card-body">
+              <h3>Малый бизнес и локальные услуги</h3>
+              <p>Нужен регулярный контент для соцсетей и рекламы, но без найма команды, студии и бесконечной организации.</p>
+            </div>
           </div>
-          <div class="fw-row">
+          <div class="fw-card">
             <div class="num">02</div>
-            <div class="text">Вы <span class="italic">бизнес с товарами или производством</span> — нужен визуал товаров для рекламы, лендинга и соцсетей без выездных съёмок.</div>
+            <div class="fw-card-body">
+              <h3>Товары, производство, каталоги</h3>
+              <p>Нужны визуалы для лендинга, карточек товара, рекламы и соцсетей без реальной фотосессии и выезда.</p>
+            </div>
           </div>
-          <div class="fw-row">
+          <div class="fw-card">
             <div class="num">03</div>
-            <div class="text">Вы <span class="italic">маркетолог в бренде</span> — нужно много креативов для тестов, а съёмка одного варианта стоит как месяц AI-продакшна.</div>
+            <div class="fw-card-body">
+              <h3>Маркетологи и бренды</h3>
+              <p>Нужно быстро тестировать несколько креативных гипотез, а не тратить весь бюджет на одну съёмку.</p>
+            </div>
           </div>
-          <div class="fw-row">
+          <div class="fw-card">
             <div class="num">04</div>
-            <div class="text">Вы <span class="italic">агентство</span> — нужен субподрядчик на AI-продакшн под белым лейблом и NDA.</div>
+            <div class="fw-card-body">
+              <h3>Агентства</h3>
+              <p>Нужен подрядчик на AI-продакшн под white label, NDA и нормальные сроки без лишнего шума.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -1703,37 +1824,49 @@ html.lenis, html.lenis body { height: auto; }
         <div class="label lbl">Услуги</div>
       </div>
       <div>
-        <h2>Три основных <span class="italic">направления.</span></h2>
-        <p class="lede">Короткие ролики, серии комиксов и продуктовые визуалы — три формата, которые быстрее всего поднимают рекламу и соцсети бизнеса. Брендинг, тексты и аутсорс — ниже как дополнение.</p>
+        <h2>Три формата, с которых <span class="italic">проще всего зайти в работу.</span></h2>
+        <p class="lede">Короткие ролики, серии комиксов и продуктовые визуалы. Брендинг, тексты и аутсорс — ниже как дополнение.</p>
       </div>
     </div>
     <div class="pillars">
       <div class="pillar reveal">
         <div class="num">01</div>
         <div>
-          <h3>Короткие ролики <span class="italic">для рекламы</span></h3>
+          <h3>Короткие <span class="italic">рекламные ролики</span></h3>
         </div>
-        <p>Рекламные ролики, сторис, Reels и product-видео — то, что сразу идёт в кабинет рекламы и в соцсети. Запуск за дни вместо недель студийного продакшна, без съёмочной группы и без выезда.</p>
-        <span class="formats label">Реклама · Reels · Сторис</span>
-        <a href="#midcta" class="pillar-cta">Хочу ролики <span class="arrow">→</span></a>
+        <p>Reels, сторис, продуктовые видео и короткие рекламные ролики под запуск, тест или регулярный контент.</p>
+        <ul class="pillar-list">
+          <li>Ролик под рекламу или соцсети</li>
+          <li>Быстрый запуск без съёмочной группы</li>
+          <li>Формат под конкретную площадку</li>
+        </ul>
+        <a href="https://t.me/alikmolchanov" class="pillar-cta">Хочу ролик <span class="arrow">→</span></a>
       </div>
       <div class="pillar reveal">
         <div class="num">02</div>
         <div>
           <h3>Серии комиксов <span class="italic">и сторис-контент</span></h3>
         </div>
-        <p>Узнаваемый персонаж и сценарная подача — регулярный контент, который напоминает клиентам о бизнесе. Особенно подходит локальному малому бизнесу и услугам: барбер, цветочный, кафе, частная практика.</p>
-        <span class="formats label">Instagram · VK · Telegram</span>
-        <a href="#midcta" class="pillar-cta">Хочу серию комиксов <span class="arrow">→</span></a>
+        <p>Регулярный контент с узнаваемым персонажем, сценарием и подачей, которую хочется досмотреть.</p>
+        <ul class="pillar-list">
+          <li>Серия материалов, а не один пост</li>
+          <li>Визуальный стиль под ваш бизнес</li>
+          <li>Контент, который можно растянуть на недели вперёд</li>
+        </ul>
+        <a href="https://t.me/alikmolchanov" class="pillar-cta">Хочу серию <span class="arrow">→</span></a>
       </div>
       <div class="pillar reveal">
         <div class="num">03</div>
         <div>
           <h3>AI-визуалы <span class="italic">для товаров и услуг</span></h3>
         </div>
-        <p>Продуктовые и рекламные визуалы без студии и выезда — для каталога, лендинга, соцсетей и тестов рекламных креативов. Один консистентный стиль на весь проект. Пример: 30+ визуалов автопарка PROCAR.</p>
-        <span class="formats label">Каталог · Лендинг · Реклама</span>
-        <a href="#midcta" class="pillar-cta">Нужны визуалы <span class="arrow">→</span></a>
+        <p>Продуктовые и рекламные визуалы для каталога, сайта, соцсетей и теста креативов.</p>
+        <ul class="pillar-list">
+          <li>Единый стиль на весь проект</li>
+          <li>Без студии и выезда</li>
+          <li>Быстрее и дешевле классической фотосессии</li>
+        </ul>
+        <a href="https://t.me/alikmolchanov" class="pillar-cta">Нужны визуалы <span class="arrow">→</span></a>
       </div>
     </div>
     <div class="extras reveal">
@@ -1768,45 +1901,46 @@ html.lenis, html.lenis body { height: auto; }
         <div class="label lbl">Процесс</div>
       </div>
       <div>
-        <h2>Четыре шага от <span class="italic">задачи</span> до готового кадра.</h2>
-        <p class="lede">От первого сообщения до готового материала — обычно 5–10 дней. Без согласований по две недели и переделок «ещё чуть-чуть».</p>
+        <h2>Четыре шага от <span class="italic">задачи</span> до готового материала.</h2>
       </div>
     </div>
     <div class="process-strip">
       <div class="process-step reveal">
         <div class="num">01</div>
         <h3>Бриф</h3>
-        <p>Анкета или 20-минутный созвон. На выходе — список референсов, сцен и tone of voice. <em style="color: var(--copper); font-style: normal; font-weight: 500;">Бесплатно.</em></p>
+        <p>Анкета или короткий созвон. Понимаем задачу, формат, стиль и референсы.</p>
       </div>
       <div class="process-step reveal">
         <div class="num">02</div>
         <h3>Генерация</h3>
-        <p>Подбираю инструмент под задачу: Midjourney и Flux для статики, Sora и Kling для видео, ComfyUI для серий. <em style="color: var(--copper); font-style: normal; font-weight: 500;">2–3 дня.</em></p>
+        <p>Подбираю инструменты под задачу: видео, фото, серийный контент, анимация.</p>
       </div>
       <div class="process-step reveal">
         <div class="num">03</div>
         <h3>Доработка</h3>
-        <p>Каждый кадр — вручную: убираю артефакты, выравниваю стиль, монтирую. Без шаблонов и «авто-фильтров». <em style="color: var(--copper); font-style: normal; font-weight: 500;">1–2 дня.</em></p>
+        <p>Ручная чистка, выравнивание стиля, монтаж, сборка финального материала.</p>
       </div>
       <div class="process-step reveal">
         <div class="num">04</div>
         <h3>Доставка</h3>
-        <p>Первый черновик — через 48 часов после брифа. Правки в стоимости. Финал — в нужных форматах под платформу. <em style="color: var(--copper); font-style: normal; font-weight: 500;">7–10 дней.</em></p>
+        <p>Первый черновик — через 48 часов после брифа. Финал — в нужных форматах под площадку.</p>
       </div>
     </div>
+    <p class="process-sign reveal">Без съёмочной группы. Без недель согласований. Без хаоса в переписке.</p>
   </div>
 </section>
 
 <!-- ═══ MID CTA ═══ -->
 <section class="mid-cta" id="midcta">
   <div class="mid-cta-inner">
-    <h2>Расскажите <span class="italic">о задаче.</span></h2>
-    <p>Не нужен готовый бриф. Опишите в двух словах что хотите — отвечу сегодня и предложу подход.</p>
+    <h2>Есть задача — разберём, какой <span class="italic">формат сработает лучше.</span></h2>
+    <p>Не нужен готовый бриф или идеальное ТЗ. Напишите в двух словах, что хотите сделать: ролик, визуалы, комикс-серию или тест креативов. Я предложу рабочий формат и отвечу лично.</p>
     <div class="mid-cta-actions">
       <a href="https://t.me/alikmolchanov" class="primary">Написать в Telegram</a>
       <a href="mailto:alik280290@gmail.com">Email</a>
       <a href="https://max.ru/alikmolchanov">Max</a>
     </div>
+    <p class="mid-cta-sign">20-минутный созвон — бесплатно.</p>
   </div>
 </section>
 
@@ -1943,75 +2077,52 @@ html.lenis, html.lenis body { height: auto; }
         <p class="lede">Студийная съёмка от 80 000 ₽ за день. AI-продакшн — от 45 000 ₽ за пакет.</p>
       </div>
     </div>
-    <div class="tier-starter reveal">
-      <div class="ts-head">
-        <span class="label tier-meta">Tier 00 · Тест-драйв</span>
-        <div class="ts-name">Старт-пакет для малого бизнеса</div>
-        <div class="ts-for">Понятный первый шаг — попробовать формат без большого бюджета и убедиться, что AI-продакшн работает на ваш бизнес.</div>
-      </div>
-      <div class="ts-body">
-        <ul class="ts-features">
-          <li>1 короткий рекламный ролик ИЛИ мини-серия сторис / комиксов</li>
-          <li>1 раунд правок</li>
-          <li>Готово за 3–5 дней</li>
-        </ul>
-        <div class="ts-cta-wrap">
-          <span class="ts-price">По запросу</span>
-          <a href="#midcta" class="tier-cta magnetic" data-magnetic>Запустить тестовый формат</a>
-        </div>
-      </div>
-    </div>
     <div class="pricing-grid">
       <div class="tier reveal">
         <div class="label tier-meta">Tier 01 · Старт</div>
         <div class="tier-name">Разовый проект</div>
-        <div class="tier-price">45 000<span class="currency">₽</span></div>
-        <div class="label tier-period">За проект, от</div>
+        <div class="tier-price">от 45 000<span class="currency">₽</span></div>
+        <div class="label tier-period">За проект</div>
         <div class="tier-divider"></div>
-        <div class="tier-for">Один проект — чтобы убедиться, что AI-продакшн работает на ваш бренд.</div>
+        <div class="tier-for">Один проект, чтобы попробовать AI-продакшн на своём бренде.</div>
         <ul class="tier-features">
-          <li>3 готовых материала: видео, фото или комикс</li>
-          <li>9 постов с текстами под tone of voice</li>
-          <li>1 раунд правок на каждый материал</li>
-          <li>Готово за 7–14 дней</li>
-          <li>Коммуникация в Telegram или Max</li>
+          <li>1 готовый материал (ролик, серия комиксов или визуалы)</li>
+          <li>Тексты / подписи под публикацию</li>
+          <li>1 раунд правок</li>
+          <li>Срок 7–14 дней</li>
         </ul>
-        <a href="#contact" class="tier-cta magnetic" data-magnetic>Начать с одного проекта</a>
+        <a href="https://t.me/alikmolchanov" class="tier-cta magnetic" data-magnetic>Начать с одного проекта</a>
       </div>
       <div class="tier featured reveal">
         <span class="label featured-mark">★ Основной формат</span>
         <div class="label tier-meta">Tier 02 · Ретейн</div>
         <div class="tier-name">Ежемесячный поток</div>
-        <div class="tier-price">110 000<span class="currency">₽</span></div>
+        <div class="tier-price">от 110 000<span class="currency">₽</span></div>
         <div class="label tier-period">В месяц</div>
         <div class="tier-divider"></div>
-        <div class="tier-for">У вас нет арт-директора и нет бюджета на студию. Контент нужен каждую неделю — стабильно.</div>
+        <div class="tier-for">Ежемесячный пакет для бизнеса, которому нужен стабильный контент, а не разовая вспышка.</div>
         <ul class="tier-features">
-          <li>8 готовых материалов в месяц (видео, фото, комиксы)</li>
-          <li>24 поста с текстами под бренд</li>
-          <li>Email-серия — 5 писем</li>
-          <li>Контент-план на месяц вперёд</li>
-          <li>2 раунда правок · приоритет в очереди</li>
-          <li>Срок 7–10 дней на полный пакет</li>
+          <li>Регулярный выпуск материалов в месяц</li>
+          <li>Контент-план вперёд</li>
+          <li>Правки и приоритет в очереди</li>
+          <li>Один понятный контакт по всем задачам</li>
         </ul>
-        <a href="#contact" class="tier-cta magnetic" data-magnetic>Обсудить ретейн</a>
+        <a href="https://t.me/alikmolchanov" class="tier-cta magnetic" data-magnetic>Обсудить ретейн</a>
       </div>
       <div class="tier reveal">
         <div class="label tier-meta">Tier 03 · Аутсорс</div>
         <div class="tier-name">Контент-партнёр</div>
-        <div class="tier-price">220 000<span class="currency">₽</span></div>
-        <div class="label tier-period">В месяц, от</div>
+        <div class="tier-price">от 220 000<span class="currency">₽</span></div>
+        <div class="label tier-period">В месяц</div>
         <div class="tier-divider"></div>
-        <div class="tier-for">Закрываю весь визуальный продакшн под вашим именем. Под NDA, без упоминания меня.</div>
+        <div class="tier-for">Подключаюсь как внешний AI-продакшн-партнёр для агентства или бренда.</div>
         <ul class="tier-features">
-          <li>До 20 материалов любого формата в месяц</li>
-          <li>Контент-стратегия и редполитика бренда</li>
-          <li>До 5 видеосценариев</li>
-          <li>Безлимитные правки</li>
-          <li>Еженедельный синк в Zoom</li>
-          <li>Белый лейбл · NDA по запросу</li>
+          <li>White label</li>
+          <li>NDA</li>
+          <li>Поток материалов под ваш бренд</li>
+          <li>Регулярная синхронизация по задачам</li>
         </ul>
-        <a href="#contact" class="tier-cta magnetic" data-magnetic>Обсудить условия</a>
+        <a href="https://t.me/alikmolchanov" class="tier-cta magnetic" data-magnetic>Обсудить условия</a>
       </div>
     </div>
     <p class="pricing-note label">Сверх пакета — со скидкой 15% от обычной цены · Оплата ₽ $ € USDT · ИП, счёт, карта</p>
@@ -2173,7 +2284,7 @@ html.lenis, html.lenis body { height: auto; }
         <ul>
           <li><a href="https://t.me/alikmolchanov">Telegram</a></li>
           <li><a href="https://instagram.com/alikmolchanov.ai">Instagram</a></li>
-          <li><a href="#contact">Email</a></li>
+          <li><a href="mailto:alik280290@gmail.com">Email</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -2186,10 +2297,6 @@ html.lenis, html.lenis body { height: auto; }
     </div>
     <div class="footer-bottom">
       <p class="label">© 2026 Александр Молчанов</p>
-      <div class="lang">
-        <span class="active">RU</span>
-        <span>EN</span>
-      </div>
     </div>
   </div>
 </footer>
