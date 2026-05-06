@@ -285,14 +285,13 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 .hero-h1 {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(36px, 6vw, 100px); line-height: 1.02; letter-spacing: -0.04em;
+  font-size: clamp(36px, 6vw, 100px); line-height: 1.05; letter-spacing: -0.035em;
   color: var(--ivory);
   font-variation-settings: "opsz" 72;
-  word-spacing: 0.04em;
 }
 .hero-h1 .italic { font-style: italic; color: var(--copper); font-weight: 400; }
 @media (max-width: 900px) {
-  .hero-h1 { letter-spacing: -0.02em; line-height: 1.08; }
+  .hero-h1 { letter-spacing: -0.015em; line-height: 1.14; }
 }
 
 .hero-sub {
@@ -403,10 +402,6 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 .word-line { display: block; overflow: hidden; }
 .word-wrap { display: inline-block; overflow: hidden; vertical-align: top; line-height: inherit; padding-bottom: 0.05em; margin-bottom: -0.05em; }
 .word { display: inline-block; will-change: transform; }
-.word-wrap + .word-wrap { margin-left: 0.28em; }
-@media (max-width: 900px) {
-  .word-wrap + .word-wrap { margin-left: 0.34em; }
-}
 
 /* ─── WORKS — vertical full-bleed scenes ─── */
 .works-pin-wrap { position: relative; }
@@ -1392,8 +1387,8 @@ html.lenis, html.lenis body { height: auto; }
   <div class="container hero-body">
     <div class="hero-text">
       <h1 class="hero-h1">
-        <span class="word-line"><span class="word-wrap"><span class="word">AI-видео</span></span><span class="word-wrap"><span class="word">и</span></span><span class="word-wrap"><span class="word">визуалы</span></span></span>
-        <span class="word-line"><span class="word-wrap"><span class="word">для</span></span><span class="word-wrap"><span class="word">бизнеса —</span></span></span>
+        <span class="word-line"><span class="word-wrap"><span class="word">AI-видео</span></span> <span class="word-wrap"><span class="word">и</span></span> <span class="word-wrap"><span class="word">визуалы</span></span></span>
+        <span class="word-line"><span class="word-wrap"><span class="word">для</span></span> <span class="word-wrap"><span class="word">бизнеса —</span></span></span>
         <span class="word-line"><span class="word-wrap"><span class="word italic">без съёмочной группы.</span></span></span>
       </h1>
       <p class="hero-sub">
