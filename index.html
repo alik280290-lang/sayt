@@ -418,17 +418,20 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 /* big type passes between sections */
 .trust-strip { padding: 56px var(--gutter); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--ink-2); }
 .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; align-items: start; }
-.trust-item .label { color: var(--copper); display: block; margin-bottom: 12px; }
-.trust-item p {
-  font-family: var(--serif); font-weight: 400;
-  font-size: 18px; line-height: 1.45; color: var(--ivory);
-  letter-spacing: -0.01em;
-  font-variation-settings: "opsz" 24;
+.trust-item .trust-anchor {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(20px, 1.8vw, 24px); line-height: 1.25; letter-spacing: -0.02em;
+  color: var(--ivory); margin-bottom: 10px;
+  font-variation-settings: "opsz" 28;
+}
+.trust-item .trust-support {
+  font-family: var(--sans); font-size: 14px; line-height: 1.5;
+  color: var(--cream-2); letter-spacing: 0.01em;
 }
 @media (max-width: 900px) {
   .trust-strip { padding: 36px var(--gutter); }
   .trust-grid { grid-template-columns: 1fr; gap: 28px; }
-  .trust-item p { font-size: 16px; }
+  .trust-item .trust-anchor { font-size: 19px; }
 }
 
 .big-type-strip {
@@ -1427,16 +1430,16 @@ html.lenis, html.lenis body { height: auto; }
 <section class="trust-strip">
   <div class="container trust-grid">
     <div class="trust-item">
-      <span class="label">★ Награды</span>
-      <p>Победитель VIDMK 2026: AI Realism + People's Choice.</p>
+      <p class="trust-anchor">VIDMK 2026</p>
+      <p class="trust-support">AI Realism + People's Choice</p>
     </div>
     <div class="trust-item">
-      <span class="label">Аудитория</span>
-      <p>Работаю с брендами, локальным бизнесом и агентствами.</p>
+      <p class="trust-anchor">Первый черновик — за 48 часов</p>
+      <p class="trust-support">Без студии, без выезда, без долгих согласований</p>
     </div>
     <div class="trust-item">
-      <span class="label">Форматы</span>
-      <p>От продуктовых визуалов до рекламных роликов и серийного контента.</p>
+      <p class="trust-anchor">Видео, визуалы, комикс-серии</p>
+      <p class="trust-support">Для рекламы, соцсетей и теста креативов</p>
     </div>
   </div>
 </section>
@@ -1693,15 +1696,14 @@ html.lenis, html.lenis body { height: auto; }
         <div class="label lbl">Об авторе</div>
       </div>
       <div>
-        <h2>От первого <span class="italic">проекта</span> до VIDMK 2026.</h2>
+        <h2>От контента к <span class="italic">AI-продакшну,</span> который работает на бизнес.</h2>
       </div>
     </div>
     <div class="about-content reveal">
       <div class="about-text">
-        <p class="lead">Я работаю с контентом <span class="italic">с 2018 года,</span> а с 2024 года сосредоточился на AI-продакшене — когда Midjourney, Runway и Sora вышли на уровень, пригодный для полноценной коммерческой работы.</p>
-        <p>Прошёл специализированное обучение по AI-режиссуре и нарративному контенту. Я воспринимаю ИИ не как визуальный эффект, а как <span class="italic">новую производственную среду,</span> где промпт выполняет роль сценария, генерация становится этапом съёмки, а качество результата определяется режиссурой, отбором и точной постобработкой.</p>
-        <p>В 2026 году я занял два первых места на хакатоне VIDMK — в номинациях <span class="italic">AI Realism</span> и <span class="italic">People's Choice</span>. Для меня это стало подтверждением того, что AI-продакшн может достигать уровня, сопоставимого с классическим визуальным производством — если работать с ним профессионально, на уровне идеи, структуры и деталей.</p>
-        <p>Сегодня я сотрудничаю с брендами и агентствами как контент-партнёр, создавая AI-видео, AI-фото и визуальные концепции для коммерческих и коммуникационных задач.</p>
+        <p class="lead">Я работаю с контентом <span class="italic">с 2018 года,</span> а с 2024 года сосредоточился на AI-продакшене для коммерческих задач.</p>
+        <p>В 2026 году взял два первых места на VIDMK — <span class="italic">AI Realism</span> и <span class="italic">People's Choice.</span> Это подтверждение уровня результата: материал должен выглядеть как продакшн, а не как эксперимент.</p>
+        <p>Сегодня я делаю AI-видео, продуктовые визуалы и контент-серии для брендов, локального бизнеса и агентств — под рекламу, соцсети и тест креативов.</p>
       </div>
     </div>
     <div class="about-diplomas reveal">
