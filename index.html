@@ -288,10 +288,18 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-size: clamp(36px, 6vw, 100px); line-height: 1.05; letter-spacing: -0.035em;
   color: var(--ivory);
   font-variation-settings: "opsz" 72;
+  text-wrap: balance;
 }
 .hero-h1 .italic { font-style: italic; color: var(--copper); font-weight: 400; }
 @media (max-width: 900px) {
-  .hero-h1 { letter-spacing: -0.015em; line-height: 1.14; }
+  .hero-h1 {
+    font-size: clamp(28px, 7.4vw, 50px);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+}
+@media (max-width: 420px) {
+  .hero-h1 { font-size: 28px; line-height: 1.22; }
 }
 
 .hero-sub {
@@ -1388,8 +1396,8 @@ html.lenis, html.lenis body { height: auto; }
     <div class="hero-text">
       <h1 class="hero-h1">
         <span class="word-line"><span class="word-wrap"><span class="word">AI-видео</span></span> <span class="word-wrap"><span class="word">и</span></span> <span class="word-wrap"><span class="word">визуалы</span></span></span>
-        <span class="word-line"><span class="word-wrap"><span class="word">для</span></span> <span class="word-wrap"><span class="word">бизнеса —</span></span></span>
-        <span class="word-line"><span class="word-wrap"><span class="word italic">без съёмочной группы.</span></span></span>
+        <span class="word-line"><span class="word-wrap"><span class="word">для</span></span> <span class="word-wrap"><span class="word">бизнеса —</span></span> <span class="word-wrap"><span class="word">без</span></span></span>
+        <span class="word-line"><span class="word-wrap"><span class="word italic">съёмочной группы.</span></span></span>
       </h1>
       <p class="hero-sub">
         Рекламные ролики, AI-фото и серии комиксов для брендов, локального бизнеса и агентств. Первый черновик — за 48 часов. Без студии, без выезда, без недель согласований.
