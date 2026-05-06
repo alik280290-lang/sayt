@@ -285,11 +285,15 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 .hero-h1 {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(36px, 6vw, 100px); line-height: 0.95; letter-spacing: -0.04em;
+  font-size: clamp(36px, 6vw, 100px); line-height: 1.02; letter-spacing: -0.04em;
   color: var(--ivory);
   font-variation-settings: "opsz" 72;
+  word-spacing: 0.04em;
 }
 .hero-h1 .italic { font-style: italic; color: var(--copper); font-weight: 400; }
+@media (max-width: 900px) {
+  .hero-h1 { letter-spacing: -0.02em; line-height: 1.08; }
+}
 
 .hero-sub {
   font-family: var(--serif); font-weight: 400;
@@ -399,7 +403,10 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 .word-line { display: block; overflow: hidden; }
 .word-wrap { display: inline-block; overflow: hidden; vertical-align: top; line-height: inherit; padding-bottom: 0.05em; margin-bottom: -0.05em; }
 .word { display: inline-block; will-change: transform; }
-.word + .word-wrap { margin-left: 0.28em; }
+.word-wrap + .word-wrap { margin-left: 0.28em; }
+@media (max-width: 900px) {
+  .word-wrap + .word-wrap { margin-left: 0.34em; }
+}
 
 /* ─── WORKS — vertical full-bleed scenes ─── */
 .works-pin-wrap { position: relative; }
