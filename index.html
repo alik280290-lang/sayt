@@ -721,6 +721,17 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-variation-settings: "opsz" 20;
 }
 .pillar .formats { color: var(--cream-3); margin-top: 8px; }
+.pillar-cta {
+  margin-top: auto; align-self: flex-start;
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.22em;
+  color: var(--copper); padding: 14px 0;
+  border-bottom: 1px solid var(--copper);
+  transition: color 0.4s var(--ease), border-color 0.4s var(--ease), gap 0.4s var(--ease);
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.pillar-cta:hover { color: var(--ivory); border-color: var(--ivory); gap: 16px; }
+.pillar-cta .arrow { font-style: italic; }
 @media (max-width: 900px) {
   .pillars { grid-template-columns: 1fr; }
   .pillar { border-right: none; border-bottom: 1px solid var(--rule); padding: 48px 24px; }
@@ -856,6 +867,47 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 
 /* ─── PRICING ─── */
+.tier-starter {
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--copper);
+  padding: 36px 40px;
+  margin-bottom: 32px;
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 1.6fr;
+  gap: 48px;
+  align-items: start;
+}
+.tier-starter .ts-head .tier-meta { display: block; margin-bottom: 14px; }
+.tier-starter .ts-name {
+  font-family: var(--serif); font-weight: 500;
+  font-size: 26px; line-height: 1.15; letter-spacing: -0.02em;
+  color: var(--ivory); margin-bottom: 14px;
+  font-variation-settings: "opsz" 32;
+}
+.tier-starter .ts-for {
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px; line-height: 1.5; color: var(--cream-2);
+  font-variation-settings: "opsz" 20;
+}
+.tier-starter .ts-features { list-style: none; padding: 0; margin: 0 0 24px; }
+.tier-starter .ts-features li {
+  font-size: 13px; padding: 10px 0 10px 24px; position: relative; line-height: 1.5;
+  border-bottom: 1px solid var(--rule); color: var(--cream);
+}
+.tier-starter .ts-features li:last-child { border-bottom: none; }
+.tier-starter .ts-features li::before {
+  content: ""; position: absolute; left: 0; top: 18px;
+  width: 12px; height: 1px; background: var(--copper);
+}
+.tier-starter .ts-cta-wrap { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+.tier-starter .ts-price {
+  font-family: var(--serif); font-style: italic;
+  font-size: 18px; color: var(--copper);
+}
+.tier-starter .tier-cta { padding: 16px 28px; }
+@media (max-width: 1024px) {
+  .tier-starter { grid-template-columns: 1fr; padding: 28px 24px; gap: 24px; }
+}
 .pricing-grid {
   display: grid; grid-template-columns: repeat(3, 1fr);
   border: 1px solid var(--rule);
@@ -1253,7 +1305,7 @@ html.lenis, html.lenis body { height: auto; }
         <span class="word-line"><span class="word-wrap"><span class="word italic">без съёмочной группы.</span></span></span>
       </h1>
       <p class="hero-sub">
-        Один человек закрывает работу команды продакшна: режиссура, генерация, редактура, монтаж. От брифа до первого черновика — 48 часов. Дальше — правки и готово.
+        Короткие ролики для рекламы, AI-визуалы для товаров и серии комиксов для бизнеса — без студии, без съёмочной группы и без долгих согласований. Первый черновик за 48 часов, дальше правки и готово.
       </p>
       <div class="hero-ctas">
         <a href="#midcta" class="cta-primary">Обсудить задачу <span class="arrow">→</span></a>
@@ -1523,30 +1575,6 @@ html.lenis, html.lenis body { height: auto; }
   </div>
 </section>
 
-<!-- ═══ STATS — cobalt ═══ -->
-<section class="stats section-cobalt">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat reveal">
-        <span class="num"><span data-target="80">0</span><span class="suffix">+</span></span>
-        <span class="label">Проектов выполнено</span>
-      </div>
-      <div class="stat reveal">
-        <span class="num"><span data-target="200">0</span><span class="suffix">К+</span></span>
-        <span class="label">AI-кадров создано</span>
-      </div>
-      <div class="stat reveal">
-        <span class="num"><span data-target="48">0</span><span class="suffix">ч</span></span>
-        <span class="label">Срок первого черновика</span>
-      </div>
-      <div class="stat reveal">
-        <span class="num"><span data-target="80">0</span><span class="suffix">%</span></span>
-        <span class="label">Клиентов возвращаются</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ═══ ABOUT ═══ -->
 <section class="about" id="about">
   <div class="container">
@@ -1636,19 +1664,19 @@ html.lenis, html.lenis body { height: auto; }
         <div class="fw-list">
           <div class="fw-row">
             <div class="num">01</div>
-            <div class="text">Вы <span class="italic">бренд</span> — нужен регулярный визуальный контент без инхаус-команды и студийного бюджета.</div>
+            <div class="text">Вы <span class="italic">малый бизнес или локальные услуги</span> — нужен регулярный контент (ролики, сторис, серии комиксов), но не хочется нанимать команду или платить за студию.</div>
           </div>
           <div class="fw-row">
             <div class="num">02</div>
-            <div class="text">Вы <span class="italic">агентство</span> — нужен субподрядчик на AI-продакшн под белым лейблом и NDA.</div>
+            <div class="text">Вы <span class="italic">бизнес с товарами или производством</span> — нужен визуал товаров для рекламы, лендинга и соцсетей без выездных съёмок.</div>
           </div>
           <div class="fw-row">
             <div class="num">03</div>
-            <div class="text">Вы <span class="italic">маркетолог</span> — нужно много креативов для тестов, а съёмка одного варианта стоит как месяц AI.</div>
+            <div class="text">Вы <span class="italic">маркетолог в бренде</span> — нужно много креативов для тестов, а съёмка одного варианта стоит как месяц AI-продакшна.</div>
           </div>
           <div class="fw-row">
             <div class="num">04</div>
-            <div class="text">Вы <span class="italic">стартап или DTC</span> — нужен уровень большой студии, но нет ни команды, ни времени.</div>
+            <div class="text">Вы <span class="italic">агентство</span> — нужен субподрядчик на AI-продакшн под белым лейблом и NDA.</div>
           </div>
         </div>
       </div>
@@ -1676,33 +1704,36 @@ html.lenis, html.lenis body { height: auto; }
       </div>
       <div>
         <h2>Три основных <span class="italic">направления.</span></h2>
-        <p class="lede">Видео, фото и нарратив — основа. Объединяются в одном пакете. Брендинг, тексты и аутсорс — ниже как дополнение.</p>
+        <p class="lede">Короткие ролики, серии комиксов и продуктовые визуалы — три формата, которые быстрее всего поднимают рекламу и соцсети бизнеса. Брендинг, тексты и аутсорс — ниже как дополнение.</p>
       </div>
     </div>
     <div class="pillars">
       <div class="pillar reveal">
         <div class="num">01</div>
         <div>
-          <h3>AI-видео <span class="italic">для рекламы</span></h3>
+          <h3>Короткие ролики <span class="italic">для рекламы</span></h3>
         </div>
-        <p>Рекламные ролики, product-видео, контент для соцсетей. Полный цикл от концепта до монтажа. Победитель VIDMK Hackaton 26 — уровень неотличим от студийного продакшна.</p>
-        <span class="formats label">Реклама · Соцсети · Бренд</span>
+        <p>Рекламные ролики, сторис, Reels и product-видео — то, что сразу идёт в кабинет рекламы и в соцсети. Запуск за дни вместо недель студийного продакшна, без съёмочной группы и без выезда.</p>
+        <span class="formats label">Реклама · Reels · Сторис</span>
+        <a href="#midcta" class="pillar-cta">Хочу ролики <span class="arrow">→</span></a>
       </div>
       <div class="pillar reveal">
         <div class="num">02</div>
         <div>
-          <h3>AI-фото <span class="italic">для брендов</span></h3>
+          <h3>Серии комиксов <span class="italic">и сторис-контент</span></h3>
         </div>
-        <p>Каталожные фото, бренд-съёмка, визуал для авто, товаров и локаций — без студии и выезда. Консистентный стиль по всему проекту. Пример: 30+ фото PROCAR.</p>
-        <span class="formats label">Каталог · Лендинг · Insta</span>
+        <p>Узнаваемый персонаж и сценарная подача — регулярный контент, который напоминает клиентам о бизнесе. Особенно подходит локальному малому бизнесу и услугам: барбер, цветочный, кафе, частная практика.</p>
+        <span class="formats label">Instagram · VK · Telegram</span>
+        <a href="#midcta" class="pillar-cta">Хочу серию комиксов <span class="arrow">→</span></a>
       </div>
       <div class="pillar reveal">
         <div class="num">03</div>
         <div>
-          <h3>Нарративные <span class="italic">комиксы</span></h3>
+          <h3>AI-визуалы <span class="italic">для товаров и услуг</span></h3>
         </div>
-        <p>Серийные комиксы с вашим персонажем для регулярных публикаций. Персонаж создаётся с фото и остаётся узнаваемым на протяжении серии. 6 постов — контент на квартал.</p>
-        <span class="formats label">Instagram · VK · Telegram</span>
+        <p>Продуктовые и рекламные визуалы без студии и выезда — для каталога, лендинга, соцсетей и тестов рекламных креативов. Один консистентный стиль на весь проект. Пример: 30+ визуалов автопарка PROCAR.</p>
+        <span class="formats label">Каталог · Лендинг · Реклама</span>
+        <a href="#midcta" class="pillar-cta">Нужны визуалы <span class="arrow">→</span></a>
       </div>
     </div>
     <div class="extras reveal">
@@ -1910,6 +1941,24 @@ html.lenis, html.lenis body { height: auto; }
       <div>
         <h2>Сколько <span class="italic">это стоит</span>.</h2>
         <p class="lede">Студийная съёмка от 80 000 ₽ за день. AI-продакшн — от 45 000 ₽ за пакет.</p>
+      </div>
+    </div>
+    <div class="tier-starter reveal">
+      <div class="ts-head">
+        <span class="label tier-meta">Tier 00 · Тест-драйв</span>
+        <div class="ts-name">Старт-пакет для малого бизнеса</div>
+        <div class="ts-for">Понятный первый шаг — попробовать формат без большого бюджета и убедиться, что AI-продакшн работает на ваш бизнес.</div>
+      </div>
+      <div class="ts-body">
+        <ul class="ts-features">
+          <li>1 короткий рекламный ролик ИЛИ мини-серия сторис / комиксов</li>
+          <li>1 раунд правок</li>
+          <li>Готово за 3–5 дней</li>
+        </ul>
+        <div class="ts-cta-wrap">
+          <span class="ts-price">По запросу</span>
+          <a href="#midcta" class="tier-cta magnetic" data-magnetic>Запустить тестовый формат</a>
+        </div>
       </div>
     </div>
     <div class="pricing-grid">
