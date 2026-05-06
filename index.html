@@ -87,9 +87,9 @@
   --copper: #B8723F;
   --copper-2: #95572A;
   --ivory: #EDE5D6;
-  --cream: rgba(237,229,214,0.86);
-  --cream-2: rgba(237,229,214,0.58);
-  --cream-3: rgba(237,229,214,0.32);
+  --cream: rgba(237,229,214,0.88);
+  --cream-2: rgba(237,229,214,0.66);
+  --cream-3: rgba(237,229,214,0.46);
   --rule: rgba(237,229,214,0.14);
   --rule-strong: rgba(237,229,214,0.30);
 
@@ -136,9 +136,10 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 .container { max-width: 1440px; margin: 0 auto; padding: 0 var(--gutter); }
 
 .label {
-  font-family: var(--sans); font-weight: 500; font-size: 10.5px;
-  text-transform: uppercase; letter-spacing: 0.28em; color: var(--cream-2);
+  font-family: var(--sans); font-weight: 500; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.24em; color: var(--cream-2);
 }
+@media (max-width: 600px) { .label { font-size: 11.5px; letter-spacing: 0.2em; } }
 .label-copper { color: var(--copper); }
 
 /* ─── NAV ─── */
@@ -193,6 +194,17 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 .mobile-menu.open { display: flex; }
 .mobile-menu .close { position: absolute; top: 28px; right: var(--gutter); font-size: 12px; letter-spacing: 0.2em; }
 .mobile-menu a { font-family: var(--serif); font-weight: 400; font-size: 36px; padding: 18px 0; border-bottom: 1px solid var(--rule); letter-spacing: -0.02em; }
+.mobile-menu .mm-cta {
+  margin-top: 32px; border-bottom: none;
+  background: var(--copper); color: var(--ink);
+  font-family: var(--sans); font-size: 14px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.18em;
+  padding: 22px 28px; text-align: left;
+  display: inline-flex; justify-content: space-between; align-items: center;
+}
+.mobile-menu .mm-cta:hover { background: var(--copper-2); }
+.mobile-menu .mm-cta .arrow { font-style: italic; transition: transform 0.4s var(--ease); }
+.mobile-menu .mm-cta:hover .arrow { transform: translateX(4px); }
 
 /* ─── HERO — minimal ─── */
 .hero {
@@ -451,8 +463,8 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-variation-settings: "opsz" 28;
 }
 .trust-item .trust-support {
-  font-family: var(--sans); font-size: 13px; line-height: 1.55;
-  color: var(--cream-3); letter-spacing: 0.02em;
+  font-family: var(--sans); font-size: 13px; line-height: 1.6;
+  color: var(--cream-2); letter-spacing: 0.04em;
   text-transform: uppercase;
   margin-top: auto;
 }
@@ -632,7 +644,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-variation-settings: "opsz" 20;
 }
 @media (max-width: 1024px) {
-  .section { padding: 110px 0; }
+  .section { padding: 90px 0; }
   .section-head { grid-template-columns: 1fr; gap: 32px; margin-bottom: 72px; }
   .section-head .num { font-size: 36px; }
 }
@@ -728,6 +740,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 
 /* ─── TOOLS ─── */
 .tools { padding: 80px 0; border-bottom: 1px solid var(--rule); }
+@media (max-width: 900px) { .tools { padding: 56px 0; } }
 .tools-grid { display: grid; grid-template-columns: 1fr 3fr; gap: 80px; align-items: center; }
 .tools-list { display: flex; flex-wrap: wrap; gap: 12px 18px; }
 .tools-list .tool {
@@ -819,8 +832,8 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 .pillar .formats { color: var(--cream-3); margin-top: 8px; }
 .pillar-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0; }
 .pillar-list li {
-  font-family: var(--sans); font-size: 13px; line-height: 1.5; color: var(--cream);
-  padding: 12px 0 12px 22px; position: relative;
+  font-family: var(--sans); font-size: 14px; line-height: 1.55; color: var(--cream);
+  padding: 14px 0 14px 22px; position: relative;
   border-bottom: 1px solid var(--rule);
 }
 .pillar-list li:last-child { border-bottom: none; }
@@ -945,6 +958,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 
 /* ─── TESTIMONIALS ─── */
 .testimonials { padding: 160px 0; overflow: hidden; }
+@media (max-width: 900px) { .testimonials { padding: 80px 0; } }
 .marquee { position: relative; }
 .marquee::before, .marquee::after {
   content: ""; position: absolute; top: 0; bottom: 0; width: 200px; z-index: 2; pointer-events: none;
@@ -1072,7 +1086,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 .tier-features { list-style: none; padding: 0; margin: 0 0 40px; }
 .tier-features li {
-  font-size: 13px; padding: 12px 0 12px 24px; position: relative; line-height: 1.5;
+  font-size: 14px; padding: 14px 0 14px 24px; position: relative; line-height: 1.55;
   border-bottom: 1px solid var(--rule); color: var(--cream);
 }
 .tier-features li:last-child { border-bottom: none; }
@@ -1086,6 +1100,9 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-family: var(--sans); font-size: 11px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.24em;
   transition: background 0.5s var(--ease), color 0.5s var(--ease), border-color 0.5s var(--ease);
+}
+@media (max-width: 600px) {
+  .tier-cta { font-size: 12px; letter-spacing: 0.16em; padding: 18px 16px; }
 }
 .tier-cta:hover { background: var(--copper); color: var(--ink); border-color: var(--copper); }
 .tier.featured .tier-cta { border-color: var(--copper); color: var(--copper); }
@@ -1410,7 +1427,7 @@ html.lenis, html.lenis body { height: auto; }
   <a href="#services">Услуги</a>
   <a href="#process">Процесс</a>
   <a href="#pricing">Цены</a>
-  <a href="https://t.me/alikmolchanov">Написать в Telegram</a>
+  <a href="https://t.me/alikmolchanov" class="mm-cta">Написать в Telegram <span class="arrow">→</span></a>
 </div>
 
 <!-- ═══ HERO — minimal ═══ -->
