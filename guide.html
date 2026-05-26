@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Гайд: портфолио через Claude AI — Александр Молчанов</title>
+<meta name="description" content="Как я сделал портфолио AI-продакшн специалиста за один вечер с помощью Claude Code. Один HTML-файл, GSAP, Kinescope, GitHub Pages.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0908'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Times' font-style='italic' font-size='20' fill='%23B8723F'%3Eam.%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0A0908;
+  --ink-2: #14110D;
+  --copper: #B8723F;
+  --ivory: #EDE5D6;
+  --cream: rgba(237,229,214,0.88);
+  --cream-2: rgba(237,229,214,0.55);
+  --cream-3: rgba(237,229,214,0.35);
+  --rule: rgba(237,229,214,0.12);
+  --serif: 'Bodoni Moda', 'Times New Roman', serif;
+  --sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--copper); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── HEADER ── */
+.site-header {
+  padding: 32px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+}
+.logo {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--copper);
+  text-decoration: none;
+}
+.back-link {
+  font-size: 13px;
+  color: var(--cream-2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.back-link:hover { color: var(--cream); text-decoration: none; }
+
+/* ── HERO ── */
+.guide-hero {
+  padding: 100px 48px 80px;
+  max-width: 860px;
+}
+.guide-tag {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+  border: 1px solid rgba(184,114,63,0.4);
+  padding: 5px 12px;
+  border-radius: 2px;
+  margin-bottom: 32px;
+}
+.guide-hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--ivory);
+  margin-bottom: 28px;
+}
+.guide-hero h1 em {
+  font-style: italic;
+  color: var(--copper);
+}
+.guide-hero .lede {
+  font-size: 18px;
+  color: var(--cream-2);
+  max-width: 600px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+}
+.meta-row {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.meta-item { }
+.meta-item .key {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  display: block;
+  margin-bottom: 4px;
+}
+.meta-item .val {
+  font-size: 14px;
+  color: var(--cream);
+}
+
+/* ── LAYOUT ── */
+.guide-body {
+  max-width: 860px;
+  padding: 0 48px 120px;
+}
+
+/* ── SECTION ── */
+.g-section {
+  padding: 72px 0;
+  border-top: 1px solid var(--rule);
+}
+.section-num {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  margin-bottom: 16px;
+}
+.g-section h2 {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 400;
+  color: var(--ivory);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+.g-section h2 em { font-style: italic; color: var(--copper); }
+
+.g-section p {
+  color: var(--cream-2);
+  margin-bottom: 20px;
+  max-width: 680px;
+}
+.g-section p strong { color: var(--cream); font-weight: 600; }
+
+.g-section ul, .g-section ol {
+  padding-left: 20px;
+  color: var(--cream-2);
+  max-width: 680px;
+  margin-bottom: 20px;
+}
+.g-section li { margin-bottom: 10px; }
+.g-section li strong { color: var(--cream); }
+
+/* ── CODE BLOCK ── */
+.prompt-block {
+  background: var(--ink-2);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--copper);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin: 28px 0;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--cream);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.prompt-block .prompt-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* ── CALLOUT ── */
+.callout {
+  background: rgba(184,114,63,0.08);
+  border: 1px solid rgba(184,114,63,0.2);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  max-width: 680px;
+}
+.callout p { color: var(--cream); margin-bottom: 0; }
+.callout p::before { content: "→ "; color: var(--copper); }
+
+/* ── STACK GRID ── */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 28px 0;
+  max-width: 680px;
+}
+.stack-item {
+  background: var(--ink-2);
+  padding: 20px 24px;
+}
+.stack-item .name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ivory);
+  margin-bottom: 4px;
+}
+.stack-item .desc {
+  font-size: 12px;
+  color: var(--cream-3);
+  line-height: 1.5;
+}
+
+/* ── STEP LIST ── */
+.step-list { margin: 28px 0; max-width: 680px; }
+.step {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: start;
+}
+.step-num {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--copper);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-body .step-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ivory);
+  margin-bottom: 4px;
+}
+.step-body p { font-size: 14px; margin-bottom: 0; }
+
+/* ── CHECKLIST ── */
+.checklist { list-style: none; padding: 0; max-width: 680px; margin: 20px 0; }
+.checklist li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--cream-2);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.checklist li::before { content: "✓"; color: var(--copper); font-size: 12px; flex-shrink: 0; }
+.checklist li strong { color: var(--cream); }
+
+/* ── FOOTER ── */
+.guide-footer {
+  border-top: 1px solid var(--rule);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: gap;
+  gap: 24px;
+}
+.guide-footer p { font-size: 13px; color: var(--cream-3); }
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--copper);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 2px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+.cta-btn:hover { background: #95572A; text-decoration: none; color: var(--ivory); }
+
+@media (max-width: 640px) {
+  .site-header { padding: 24px; }
+  .guide-hero { padding: 64px 24px 48px; }
+  .guide-body { padding: 0 24px 80px; }
+  .guide-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="https://alik280290-lang.github.io/sayt/" class="logo">am.</a>
+  <a href="https://alik280290-lang.github.io/sayt/" class="back-link">← Вернуться на сайт</a>
+</header>
+
+<section class="guide-hero">
+  <div class="guide-tag">Гайд · 2026</div>
+  <h1>Портфолио AI-специалиста через <em>Claude Code</em> — за один вечер</h1>
+  <p class="lede">Как я построил своё коммерческое портфолио: один HTML-файл, анимации на GSAP, видео через Kinescope и деплой на GitHub Pages. Без фреймворков, без опыта в коде.</p>
+  <div class="meta-row">
+    <div class="meta-item">
+      <span class="key">Время</span>
+      <span class="val">2–4 часа до первой версии</span>
+    </div>
+    <div class="meta-item">
+      <span class="key">Стоимость</span>
+      <span class="val">Бесплатно</span>
+    </div>
+    <div class="meta-item">
+      <span class="key">Стек</span>
+      <span class="val">HTML · GSAP · Kinescope · GitHub Pages</span>
+    </div>
+    <div class="meta-item">
+      <span class="key">Результат</span>
+      <span class="val"><a href="https://alik280290-lang.github.io/sayt/">alik280290-lang.github.io/sayt</a></span>
+    </div>
+  </div>
+</section>
+
+<div class="guide-body">
+
+  <!-- 01 -->
+  <section class="g-section">
+    <div class="section-num">01 — Подготовка</div>
+    <h2>Что нужно <em>собрать</em> до начала</h2>
+    <p>Claude не придумает за тебя контент. Всё что он делает — превращает твой материал в работающий код. Поэтому сначала собери:</p>
+    <ul>
+      <li><strong>Видео работ</strong> — загрузи на Kinescope (бесплатно, до 100 ГБ). Форматы MP4, до 10 МБ каждое.</li>
+      <li><strong>Список клиентов и проектов</strong> — названия, что делал, результаты. Даже тезисно.</li>
+      <li><strong>Награды и достижения</strong> — если есть. У меня: 1-е место AI Realism + People's Choice, VIDMK 2026.</li>
+      <li><strong>Прайс</strong> — три тарифа или диапазон цен.</li>
+      <li><strong>Контакты</strong> — Telegram, email.</li>
+      <li><strong>10–15 сайтов-референсов</strong> — что нравится визуально. Pinterest, Awwwards, Behance.</li>
+    </ul>
+    <div class="callout"><p>Kinescope даёт embed-ссылку в формате <code>kinescope.io/embed/[ID]</code>. Именно её вставляем в iframe на сайте.</p></div>
+  </section>
+
+  <!-- 02 -->
+  <section class="g-section">
+    <div class="section-num">02 — Инструменты</div>
+    <h2><em>Стек</em> этого сайта</h2>
+    <p>Никаких React, никаких сборщиков. Один файл — один сайт.</p>
+    <div class="stack-grid">
+      <div class="stack-item">
+        <div class="name">Claude Code</div>
+        <div class="desc">AI пишет код по твоим промптам. Нужна подписка Pro или Max.</div>
+      </div>
+      <div class="stack-item">
+        <div class="name">VS Code</div>
+        <div class="desc">Редактор кода. Claude Code работает прямо внутри него.</div>
+      </div>
+      <div class="stack-item">
+        <div class="name">GSAP + ScrollTrigger</div>
+        <div class="desc">Плавные анимации при скролле. Подключается через CDN, ничего не устанавливать.</div>
+      </div>
+      <div class="stack-item">
+        <div class="name">Lenis</div>
+        <div class="desc">Инерционный скролл — страница «плывёт» а не прыгает.</div>
+      </div>
+      <div class="stack-item">
+        <div class="name">Kinescope</div>
+        <div class="desc">Хостинг видео с русским интерфейсом. Даёт iframe-embed без рекламы.</div>
+      </div>
+      <div class="stack-item">
+        <div class="name">GitHub Pages</div>
+        <div class="desc">Бесплатный хостинг. Файл в репозитории = живой сайт.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="g-section">
+    <div class="section-num">03 — Первый промпт</div>
+    <h2>Самый важный <em>запрос</em></h2>
+    <p>Первый промпт задаёт всю архитектуру. Чем точнее опишешь — тем меньше итераций потом. Вот шаблон который я использовал:</p>
+    <div class="prompt-block"><span class="prompt-label">Промпт → Claude Code</span>Создай одностраничный сайт-портфолио для AI-продакшн специалиста.
+
+ЛИЧНОСТЬ:
+Имя: Александр Молчанов
+Специализация: AI-видео и фото для брендов и агентств
+Награды: 1-е место AI Realism, 1-е место People's Choice — VIDMK Hackathon 2026
+Город: Москва
+
+СТИЛЬ:
+— Тёмный фон (#0A0908), почти чёрный
+— Акцент: медный/бронзовый (#B8723F)
+— Текст: слоновая кость (#EDE5D6)
+— Шрифты: Bodoni Moda (заголовки, serif) + Plus Jakarta Sans (текст, sans)
+— Атмосфера: premium editorial, как Wallpaper* или Monocle
+
+СЕКЦИИ:
+1. Hero — большой заголовок, видео-фрейм справа, список клиентов внизу
+2. Работы — горизонтальный скролл с пин-эффектом, каждая работа на весь экран
+3. Обо мне — текст + таймлайн
+4. Услуги — три тарифа с ценами
+5. Отзывы — цитаты клиентов
+6. Контактная форма
+
+ТЕХНИЧЕСКИ:
+— Один HTML-файл, без фреймворков
+— GSAP + ScrollTrigger + Lenis через CDN
+— Анимации: fade-in при скролле, плавные переходы
+— Мобильная адаптация</div>
+    <div class="callout"><p>Не пиши «сделай красиво» или «как у Apple» — Claude не поймёт. Давай конкретные цвета, шрифты, примеры сайтов.</p></div>
+  </section>
+
+  <!-- 04 -->
+  <section class="g-section">
+    <div class="section-num">04 — Секции по одной</div>
+    <h2>Итеративная <em>доработка</em></h2>
+    <p>После первой версии дорабатывай каждую секцию отдельным промптом. Не проси переписать весь сайт — только точечные изменения.</p>
+
+    <p><strong>Горизонтальный скролл работ (pin-эффект):</strong></p>
+    <div class="prompt-block"><span class="prompt-label">Промпт</span>Секция #works: сделай горизонтальный пин-скролл.
+При скролле вниз камера едет вправо, показывая карточки работ одну за другой.
+Каждая карточка — на весь экран (100vw × 100vh).
+Фон — видео через iframe (Kinescope embed).
+Текст поверх видео внизу слева: название проекта, мета-данные, цитата клиента.
+Используй GSAP ScrollTrigger с pin: true.</div>
+
+    <p><strong>Добавить новую работу:</strong></p>
+    <div class="prompt-block"><span class="prompt-label">Промпт</span>Добавь новую карточку в секцию #works после последней существующей.
+
+Номер: Work / 007
+Видео: https://kinescope.io/embed/[ID]?autoplay=1&muted=1&loop=1
+Заголовок: VIDMK Forum
+Подпись: Official Promo · Social Campaign
+Описание: Ежегодный московский форум видеоиндустрии — и его визуальный голос в социальных сетях.
+Мета: Клиент — VIDMK · форум видеоиндустрии | Формат — Рекламный ролик · соцсети | Площадка — Официальные каналы VIDMK</div>
+
+    <p><strong>Анимации появления:</strong></p>
+    <div class="prompt-block"><span class="prompt-label">Промпт</span>Добавь reveal-анимацию ко всем элементам с классом .reveal
+Эффект: плавное появление снизу вверх (y: 40px → 0) с fade-in
+Задержка между элементами в одной секции: 0.12s
+Используй GSAP ScrollTrigger, trigger: элемент сам</div>
+  </section>
+
+  <!-- 05 -->
+  <section class="g-section">
+    <div class="section-num">05 — Видео на сайте</div>
+    <h2>Kinescope вместо <em>YouTube</em></h2>
+    <p>YouTube показывает рекламу и «похожие видео» — это убивает премиальный вид. Kinescope даёт чистый плеер без лишнего.</p>
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Загрузи видео на kinescope.io</div>
+          <p>Бесплатный аккаунт, русский интерфейс, 100 ГБ хранилища.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Скопируй ID из ссылки</div>
+          <p>После загрузки ссылка выглядит как <code>kinescope.io/4si6LKEhDC3...</code> — вот это и есть ID.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Вставь embed в iframe</div>
+          <p>Формат: <code>https://kinescope.io/embed/[ID]?autoplay=1&muted=1&loop=1</code></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Используй data-src для ленивой загрузки</div>
+          <p>Вместо <code>src</code> пиши <code>data-src</code> — видео загрузится только когда карточка появится на экране. Это ускоряет сайт.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout"><p>Видео должно быть сжато: H.264, до 10 МБ, с флагом <code>+faststart</code>. Иначе будет долго грузиться на мобильном.</p></div>
+  </section>
+
+  <!-- 06 -->
+  <section class="g-section">
+    <div class="section-num">06 — Деплой</div>
+    <h2>GitHub Pages — <em>бесплатный</em> хостинг</h2>
+    <p>Сайт живёт на GitHub. Каждое изменение — это git push, и через минуту сайт обновлён.</p>
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Создай репозиторий на github.com</div>
+          <p>Имя: <code>sayt</code> (или любое). Публичный. Без README.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Включи GitHub Pages</div>
+          <p>Settings → Pages → Source: Deploy from branch → main → / (root).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Пушь изменения через Claude Code</div>
+          <p>Скажи Claude: «запушь изменения на GitHub». Он сделает git add, commit, push за тебя.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout"><p>После push жди 1–3 минуты. Если сайт не обновился — обнови страницу через Cmd+Shift+R (жёсткое обновление кэша).</p></div>
+  </section>
+
+  <!-- 07 -->
+  <section class="g-section">
+    <div class="section-num">07 — Частые ошибки</div>
+    <h2>На чём <em>спотыкаются</em></h2>
+    <ul>
+      <li><strong>Видео не играет автоматически</strong> — браузер требует <code>muted=1</code> для autoplay. Без него — тишина и ничего.</li>
+      <li><strong>Анимации не работают</strong> — GSAP и Lenis нужно инициализировать после загрузки DOM. Весь JS — перед закрывающим <code>&lt;/body&gt;</code>.</li>
+      <li><strong>Сайт не обновился после push</strong> — жёсткое обновление Cmd+Shift+R или подождать 2–5 минут.</li>
+      <li><strong>Шрифты не грузятся</strong> — Google Fonts нужно подключить в <code>&lt;head&gt;</code>, иначе анимации текста сломаются.</li>
+      <li><strong>Мобильный скролл</strong> — горизонтальный pin-эффект на мобильном нужно отключать. Добавь медиа-запрос.</li>
+      <li><strong>Долгая загрузка</strong> — используй <code>data-src</code> вместо <code>src</code> для iframe с видео. Иначе все видео грузятся сразу.</li>
+    </ul>
+  </section>
+
+  <!-- 08 -->
+  <section class="g-section">
+    <div class="section-num">08 — Принципы работы с Claude</div>
+    <h2>Как формулировать <em>задачи</em></h2>
+    <ul>
+      <li><strong>Один запрос — одно изменение.</strong> «Поменяй цвет кнопки на медный» работает лучше чем «переделай весь header».</li>
+      <li><strong>Показывай что не нравится конкретно.</strong> «Заголовок слишком маленький на мобильном» → Claude исправит. «Сделай лучше» → непонятно.</li>
+      <li><strong>Сохраняй удачные промпты.</strong> Если что-то сработало идеально — запиши, используй снова.</li>
+      <li><strong>Делай коммит после каждого удачного изменения.</strong> Так можно откатиться если что-то сломается.</li>
+      <li><strong>Не бойся спрашивать «почему».</strong> Claude объяснит любой кусок кода простыми словами.</li>
+    </ul>
+    <div class="callout"><p>Главный навык — не знание кода, а умение точно описать что хочешь. Как техзадание дизайнеру, только для AI.</p></div>
+  </section>
+
+  <!-- 09 -->
+  <section class="g-section">
+    <div class="section-num">09 — Чеклист перед запуском</div>
+    <h2>Перед тем как <em>отправить ссылку</em></h2>
+    <ul class="checklist">
+      <li><strong>Видео</strong> — сжаты, грузятся быстро, используется data-src</li>
+      <li><strong>Мобильная версия</strong> — проверена на iPhone в Safari</li>
+      <li><strong>Title и description</strong> — заполнены в &lt;head&gt;</li>
+      <li><strong>og:image</strong> — есть превью для соцсетей (1200×630px)</li>
+      <li><strong>Контакты</strong> — все ссылки рабочие (Telegram, email)</li>
+      <li><strong>Форма</strong> — отправка работает (Web3Forms или аналог)</li>
+      <li><strong>Анимации</strong> — не мешают читать контент, не тормозят</li>
+    </ul>
+  </section>
+
+</div>
+
+<footer class="guide-footer">
+  <p>Александр Молчанов · AI-продакшн для брендов · Москва · 2026</p>
+  <a href="https://t.me/alikmolchanov" class="cta-btn">Обсудить проект →</a>
+</footer>
+
+</body>
+</html>
