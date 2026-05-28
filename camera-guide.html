@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Камера в промпте: язык камеры в AI — Александр Молчанов</title>
+<meta name="description" content="14 камер, 7 фокусных, физика света и ИИ-помощник. Как управлять ощущением кадра в нейросети — не шпаргалка, система выбора. Гайд от AlikMolchanov.AI.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0908'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Times' font-style='italic' font-size='20' fill='%23B8723F'%3Eam.%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0A0908;
+  --ink-2: #14110D;
+  --copper: #B8723F;
+  --ivory: #EDE5D6;
+  --cream: rgba(237,229,214,0.88);
+  --cream-2: rgba(237,229,214,0.55);
+  --cream-3: rgba(237,229,214,0.35);
+  --rule: rgba(237,229,214,0.12);
+  --serif: 'Bodoni Moda', 'Times New Roman', serif;
+  --sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--copper); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── HEADER ── */
+.site-header {
+  padding: 32px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+}
+.logo {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--copper);
+  text-decoration: none;
+}
+.back-link {
+  font-size: 13px;
+  color: var(--cream-2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.back-link:hover { color: var(--cream); text-decoration: none; }
+
+/* ── HERO ── */
+.guide-hero {
+  padding: 100px 48px 80px;
+  max-width: 860px;
+}
+.guide-tag {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+  border: 1px solid rgba(184,114,63,0.4);
+  padding: 5px 12px;
+  border-radius: 2px;
+  margin-bottom: 32px;
+}
+.guide-hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--ivory);
+  margin-bottom: 28px;
+}
+.guide-hero h1 em { font-style: italic; color: var(--copper); }
+.guide-hero .lede {
+  font-size: 18px;
+  color: var(--cream-2);
+  max-width: 600px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+}
+.meta-row { display: flex; gap: 40px; flex-wrap: wrap; }
+.meta-item .key {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  display: block;
+  margin-bottom: 4px;
+}
+.meta-item .val { font-size: 14px; color: var(--cream); }
+
+/* ── LAYOUT ── */
+.guide-body { max-width: 860px; padding: 0 48px 120px; }
+
+/* ── SECTION ── */
+.g-section { padding: 72px 0; border-top: 1px solid var(--rule); }
+.section-num {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  margin-bottom: 16px;
+}
+.g-section h2 {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 400;
+  color: var(--ivory);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+.g-section h2 em { font-style: italic; color: var(--copper); }
+.g-section h3 {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400;
+  color: var(--ivory);
+  margin: 36px 0 14px;
+  line-height: 1.3;
+}
+.g-section h3 em { font-style: italic; color: var(--copper); }
+.g-section p {
+  color: var(--cream-2);
+  margin-bottom: 20px;
+  max-width: 680px;
+}
+.g-section p strong { color: var(--cream); font-weight: 600; }
+.g-section ul, .g-section ol {
+  padding-left: 20px;
+  color: var(--cream-2);
+  max-width: 680px;
+  margin-bottom: 20px;
+}
+.g-section li { margin-bottom: 10px; }
+.g-section li strong { color: var(--cream); }
+
+/* ── CAMERA EMOTION MAP ── */
+.emotion-map {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 28px 0;
+  max-width: 680px;
+}
+.emotion-item {
+  background: var(--ink-2);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.emotion-item .cam { font-size: 14px; color: var(--copper); font-family: 'SF Mono', 'Fira Code', monospace; }
+.emotion-item .emo { font-size: 13px; color: var(--cream-2); text-align: right; }
+
+/* ── CAMERA CARD ── */
+.camera-card {
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--copper);
+  border-radius: 4px;
+  padding: 32px 36px;
+  margin: 36px 0;
+  max-width: 760px;
+  background: var(--ink-2);
+}
+.camera-num {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  margin-bottom: 8px;
+  display: block;
+}
+.camera-card h3 {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-weight: 400;
+  color: var(--ivory);
+  margin: 0 0 4px;
+  line-height: 1.1;
+}
+.camera-card h3 em { font-style: italic; color: var(--copper); }
+.camera-subtitle {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 20px;
+  display: block;
+}
+.camera-rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.camera-row-item .row-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  margin-bottom: 4px;
+  display: block;
+}
+.camera-row-item p {
+  font-size: 14px;
+  color: var(--cream-2);
+  margin-bottom: 0;
+  max-width: 100%;
+}
+.use-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.use-item {
+  background: var(--ink);
+  padding: 12px 16px;
+}
+.use-item .use-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+.use-item.yes .use-label { color: #6aab6a; }
+.use-item.no .use-label { color: #b05050; }
+.use-item p { font-size: 13px; color: var(--cream-2); margin-bottom: 0; max-width: 100%; }
+.formula-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  margin-bottom: 8px;
+  display: block;
+}
+.formula-text {
+  font-size: 13px;
+  color: var(--cream-2);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  margin-bottom: 0;
+  max-width: 100%;
+}
+
+/* ── PROMPT BLOCK ── */
+.prompt-block {
+  background: var(--ink-2);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--copper);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin: 28px 0;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--cream);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 760px;
+}
+.prompt-block .prompt-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* ── FOCAL LENGTH CARD ── */
+.focal-card {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin: 20px 0;
+  background: var(--ink-2);
+  max-width: 680px;
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.focal-mm {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 400;
+  color: var(--copper);
+  line-height: 1;
+}
+.focal-col .col-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  margin-bottom: 6px;
+  display: block;
+}
+.focal-col p {
+  font-size: 14px;
+  color: var(--cream-2);
+  margin-bottom: 0;
+  max-width: 100%;
+}
+.focal-col p strong { color: var(--cream); }
+
+/* ── PHYSICS TABLE ── */
+.physics-table {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 28px 0;
+  max-width: 680px;
+}
+.physics-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+}
+.physics-row:last-child { border-bottom: none; }
+.physics-param {
+  padding: 14px 20px;
+  background: var(--ink-2);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  color: var(--copper);
+  border-right: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+}
+.physics-desc {
+  padding: 14px 20px;
+  font-size: 14px;
+  color: var(--cream-2);
+  display: flex;
+  align-items: center;
+}
+
+/* ── CALLOUT ── */
+.callout {
+  background: rgba(184,114,63,0.08);
+  border: 1px solid rgba(184,114,63,0.2);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  max-width: 680px;
+}
+.callout p { color: var(--cream); margin-bottom: 0; }
+.callout p::before { content: "→ "; color: var(--copper); }
+
+/* ── TECHNIQUES ── */
+.technique-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 28px 0;
+  max-width: 680px;
+}
+.technique-item { background: var(--ink-2); padding: 20px 24px; }
+.technique-item .name {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  color: var(--copper);
+  margin-bottom: 6px;
+}
+.technique-item .desc { font-size: 13px; color: var(--cream-2); line-height: 1.5; }
+
+/* ── COMBO LIST ── */
+.combo-list {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 28px 0;
+  max-width: 680px;
+}
+.combo-row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  border-bottom: 1px solid var(--rule);
+}
+.combo-row:last-child { border-bottom: none; }
+.combo-pair {
+  padding: 16px 20px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  color: var(--copper);
+  background: var(--ink-2);
+  border-right: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+}
+.combo-note {
+  padding: 16px 20px;
+  font-size: 13px;
+  color: var(--cream-2);
+  display: flex;
+  align-items: center;
+}
+
+/* ── FOOTER ── */
+.guide-footer {
+  border-top: 1px solid var(--rule);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.guide-footer .footer-logo {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--copper);
+}
+.guide-footer .footer-links { display: flex; gap: 32px; flex-wrap: wrap; }
+.guide-footer .footer-links a { font-size: 13px; color: var(--cream-2); }
+.guide-footer .footer-links a:hover { color: var(--ivory); text-decoration: none; }
+.guide-footer .copyright { font-size: 12px; color: var(--cream-3); width: 100%; }
+
+@media (max-width: 680px) {
+  .site-header { padding: 24px; }
+  .guide-hero { padding: 60px 24px 48px; }
+  .guide-body { padding: 0 24px 80px; }
+  .emotion-map { grid-template-columns: 1fr; }
+  .camera-rows { grid-template-columns: 1fr; }
+  .use-grid { grid-template-columns: 1fr; }
+  .focal-card { grid-template-columns: 1fr; gap: 12px; }
+  .physics-row { grid-template-columns: 1fr; }
+  .physics-param { border-right: none; border-bottom: 1px solid var(--rule); }
+  .combo-row { grid-template-columns: 1fr; }
+  .combo-pair { border-right: none; border-bottom: 1px solid var(--rule); }
+  .guide-footer { padding: 32px 24px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="logo">am.</a>
+  <a href="index.html#downloads" class="back-link">← Материалы</a>
+</header>
+
+<div class="guide-hero">
+  <div class="guide-tag">AI Imagery · Guide V2 · 2026</div>
+  <h1>Камера<br>в <em>промпте</em></h1>
+  <p class="lede">Как управлять ощущением кадра в нейросети. Не шпаргалка — система выбора. 14 камер, 7 фокусных, физика света и ИИ-помощник внутри.</p>
+  <div class="meta-row">
+    <div class="meta-item"><span class="key">Автор</span><span class="val">@AlikMolchanov.AI</span></div>
+    <div class="meta-item"><span class="key">Камер</span><span class="val">14 рычагов</span></div>
+    <div class="meta-item"><span class="key">Фокусных</span><span class="val">7 значений</span></div>
+    <div class="meta-item"><span class="key">Версия</span><span class="val">V2</span></div>
+  </div>
+</div>
+
+<div class="guide-body">
+
+  <!-- ── МАНИФЕСТ ── -->
+  <div class="g-section">
+    <div class="section-num">Манифест</div>
+    <h2>Весь интернет даёт шпаргалку.<br><em>Никто не сказал — как выбрать.</em></h2>
+    <p>«85mm = боке, 24mm = масштаб». Список есть — ответа нет. Потому что выбор зависит не от камеры, а от <strong>задачи кадра</strong>: что он должен сделать со зрителем.</p>
+    <div class="callout"><p>Сначала цель → потом камера → оптика → параметры → промпт.</p></div>
+    <p>Этот гайд — система, а не список. Каждая камера задаёт эмоцию. Каждое фокусное — дистанцию и давление кадра. Всё вместе — это язык кадра, который AI читает как конкретную физику.</p>
+  </div>
+
+  <!-- ── КАМЕРА = ЭМОЦИЯ ── -->
+  <div class="g-section">
+    <div class="section-num">Карта камер</div>
+    <h2>Камера = <em>эмоция</em></h2>
+    <p>Каждая камера говорит своё. Выбирай не по бренду — по задаче кадра.</p>
+    <div class="emotion-map">
+      <div class="emotion-item"><span class="cam">Sony</span><span class="emo">точность</span></div>
+      <div class="emotion-item"><span class="cam">Fujifilm</span><span class="emo">душевность</span></div>
+      <div class="emotion-item"><span class="cam">iPhone</span><span class="emo">подлинность</span></div>
+      <div class="emotion-item"><span class="cam">Hasselblad</span><span class="emo">роскошь</span></div>
+      <div class="emotion-item"><span class="cam">ARRI Alexa</span><span class="emo">напряжение</span></div>
+      <div class="emotion-item"><span class="cam">Polaroid</span><span class="emo">винтаж</span></div>
+      <div class="emotion-item"><span class="cam">RED</span><span class="emo">сила</span></div>
+      <div class="emotion-item"><span class="cam">Leica</span><span class="emo">авторство</span></div>
+      <div class="emotion-item"><span class="cam">CCTV</span><span class="emo">настороженность</span></div>
+      <div class="emotion-item"><span class="cam">Canon</span><span class="emo">глянец</span></div>
+      <div class="emotion-item"><span class="cam">IMAX</span><span class="emo">величие</span></div>
+      <div class="emotion-item"><span class="cam">Nikon</span><span class="emo">правда</span></div>
+      <div class="emotion-item"><span class="cam">Panavision</span><span class="emo">постановка</span></div>
+      <div class="emotion-item"><span class="cam">Плёнка</span><span class="emo">жизнь</span></div>
+    </div>
+  </div>
+
+  <!-- ── 14 КАМЕР ── -->
+  <div class="g-section">
+    <div class="section-num">14 рычагов</div>
+    <h2>Камеры — <em>подробно</em></h2>
+    <p>Для каждой камеры: цель, эффект, когда брать и когда нет, формула и готовый промпт-фрагмент.</p>
+
+    <!-- 01 SONY -->
+    <div class="camera-card">
+      <span class="camera-num">01 / 14</span>
+      <h3>Sony <em>A7R IV</em></h3>
+      <span class="camera-subtitle">→ Точность · Чистая цифра</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Чистая «цифра», подчеркнуть детали, рекламный лоск.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Высокая резкость, точная цветопередача, современность.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Fashion editorial, коммерческие съёмки</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Плёночный стиль, «грязная» эстетика, винтаж</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">Sony A7R IV · high resolution · sharp focus · clean dynamic range · balanced color · minimal grain</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>Sony A7R IV, sharp focus, clean dynamic range, precise skin texture, balanced color science, no film emulation</div>
+
+    <!-- 02 FUJIFILM -->
+    <div class="camera-card">
+      <span class="camera-num">02 / 14</span>
+      <h3>Fujifilm <em>X-T4</em></h3>
+      <span class="camera-subtitle">→ Душевность · Теплота момента</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Оживить кадр, передать настроение и тепло момента.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Мягкие тени, глубокий цвет, ощущение плёнки.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Лайфстайл, street-фото, личные серии</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Коммерч-каталог, hi-tech, холодная предметка</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">Fujifilm · natural light · soft shadows · film grain · warm tones · cinematic palette</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>Fujifilm X-T4, 35mm ƒ/1.4, natural light, soft shadows, subtle film grain, warm skin tones</div>
+
+    <!-- 03 IPHONE -->
+    <div class="camera-card">
+      <span class="camera-num">03 / 14</span>
+      <h3>iPhone <em>Pro Max</em></h3>
+      <span class="camera-subtitle">→ Подлинность · Естественность</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Убрать постановку, эффект «я здесь, это по-настоящему».</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Близость, снижает пафос, эффект присутствия.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Личный бренд, трэвел, сторис, рилсы</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Люкс, имиджевая реклама, премиум-fashion</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">iPhone selfie · handheld POV · 9:16 · natural light · imperfect framing · no filters</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>iPhone selfie camera, handheld POV, 9:16, natural light, imperfect framing, visible noise, no filters, no grading</div>
+
+    <!-- 04 HASSELBLAD -->
+    <div class="camera-card">
+      <span class="camera-num">04 / 14</span>
+      <h3>Hasselblad <em>907X</em></h3>
+      <span class="camera-subtitle">→ Роскошь · Вне времени</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Статус и вкус, ощущение «вне времени», эксклюзив.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Премиальность, чистый цвет, дорого и спокойно.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Fashion, luxury, ювелирка, часы</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Динамика, масс-маркет, репортаж</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">medium format · neutral color · soft tonal · shallow DOF · controlled light · timeless</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>medium format Hasselblad look, neutral color science, soft tonal transitions, shallow DOF, quiet luxury, timeless</div>
+
+    <!-- 05 ARRI ALEXA -->
+    <div class="camera-card">
+      <span class="camera-num">05 / 14</span>
+      <h3>ARRI <em>Alexa Mini</em></h3>
+      <span class="camera-subtitle">→ Напряжение · Драма</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Внутреннее состояние, драматизм и объём через тени.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Кинематографично, объёмные тени, драматичный свет.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Психологические портреты, диалоги, сторителлинг</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Лёгкий позитив, техобзоры, любительский документализм</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">ARRI Alexa · cinematic light · soft highlight roll-off · deep DR · dramatic shadows</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>ARRI Alexa, 85mm, cinematic lighting, soft highlight roll-off, deep dynamic range, dramatic shadows, controlled contrast</div>
+
+    <!-- 06 POLAROID -->
+    <div class="camera-card">
+      <span class="camera-num">06 / 14</span>
+      <h3>Polaroid <em>instant</em></h3>
+      <span class="camera-subtitle">→ Винтаж · Ностальгия</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Аутентичность и тепло, ощущение «здесь и сейчас».</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Ностальгия, тепло, мягкость.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Личные моменты, ретро-вайб, лайфстайл</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Чистая коммерция, hi-tech, премиум-лоск</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">Polaroid · faded color · light leaks · soft focus · warm nostalgic tone</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>Polaroid instant film, soft faded color, light leaks, warm nostalgic tone, slightly soft focus, vintage authenticity</div>
+
+    <!-- 07 RED -->
+    <div class="camera-card">
+      <span class="camera-num">07 / 14</span>
+      <h3>RED <em>Monstro</em></h3>
+      <span class="camera-subtitle">→ Сила · Цифровое кино</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Насыщенный кинокадр, энергия и сила через цвет.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Насыщенный неон, энергия, кинокадр.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Коммерческое кино, клипы, sci-fi, ночные сцены</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Уютная атмосфера, документальный стиль, минимализм</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">RED Monstro 8K · anamorphic · hyper-detail · rich saturated color · high dynamic range</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>RED Monstro 8K, anamorphic, hyper-detail, rich saturated color, high dynamic range, neon industrial, cinematic power</div>
+
+    <!-- 08 LEICA -->
+    <div class="camera-card">
+      <span class="camera-num">08 / 14</span>
+      <h3>Leica <em>M11</em></h3>
+      <span class="camera-subtitle">→ Авторство · Характер</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Ощущение «пойманного» момента, будто есть автор.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Ретро-ощущение, живой пойманный кадр.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Портреты с характером, бренд эксперта, улица</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Агрессивная реклама, глянец, гиперкоммерция</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">Leica M11 · 50mm · available light · shallow DOF · natural color · subtle grain</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>Leica M11, 50mm, available light, shallow DOF ƒ/1.4, natural color, subject observed not posed, subtle grain</div>
+
+    <!-- 09 CCTV -->
+    <div class="camera-card">
+      <span class="camera-num">09 / 14</span>
+      <h3>CCTV <em>security</em></h3>
+      <span class="camera-subtitle">→ Настороженность · Наблюдение</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Холодный реализм и ощущение слежки, тревога.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Холод, отстранённость, сырой реализм.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Тревожный сторителлинг, концепт, триллер</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Тёплый лайфстайл, бьюти, премиум</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">CCTV · cold desaturated tone · grain · surveillance angle · timestamp overlay</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>CCTV security camera footage, cold desaturated tone, slight grain, high surveillance angle, timestamp overlay, raw realism</div>
+
+    <!-- 10 CANON -->
+    <div class="camera-card">
+      <span class="camera-num">10 / 14</span>
+      <h3>Canon <em>EOS R5</em></h3>
+      <span class="camera-subtitle">→ Глянец · Бьюти</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Продающий коммерческий кадр, тёплый и мягкий.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Тёплый продающий цвет, мягкий свет, чистая кожа.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Бьюти, реклама, портрет, lifestyle-контент</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Суровый стиль, репортаж, холодная эстетика</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">Canon EOS R5 · 50mm ƒ/1.2 · warm pleasing color · soft flattering light · commercial polish</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>Canon EOS R5, 50mm ƒ/1.2, warm pleasing color, soft flattering light, commercial polish, clean skin, beauty advertising</div>
+
+    <!-- 11 IMAX -->
+    <div class="camera-card">
+      <span class="camera-num">11 / 14</span>
+      <h3>IMAX <em>MKIV</em></h3>
+      <span class="camera-subtitle">→ Величие · Присутствие</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Эпичный масштаб, человек внутри огромного мира.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Величие, эпичный простор, масштаб который давит.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Природа, архитектура, эпические сцены, трэвел</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Камерные истории, интимные портреты, стрит</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">IMAX film camera · ultra wide scale · epic grandeur · vast landscape · tiny human figure</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>IMAX film camera, 50mm, ultra wide scale, epic grandeur, vast landscape, tiny human in frame</div>
+
+    <!-- 12 NIKON -->
+    <div class="camera-card">
+      <span class="camera-num">12 / 14</span>
+      <h3>Nikon <em>D850</em></h3>
+      <span class="camera-subtitle">→ Правда · Реализм</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Документальная правда, реальная фактура, честный кадр.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Реальная фактура, честный кадр, ремесло без гламура.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Документалка, репортаж, журнальная съёмка, ремесло</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Гламур, глянец, люкс, постановочный стиль</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">Nikon D850 · 70-200mm ƒ/2.8 · sharp contrast · realistic color · documentary · no retouching</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>Nikon D850, 70-200mm ƒ/2.8, sharp contrast, realistic color, detailed textures, natural daylight, no retouching, documentary</div>
+
+    <!-- 13 PANAVISION -->
+    <div class="camera-card">
+      <span class="camera-num">13 / 14</span>
+      <h3>Panavision <em>DXL2</em></h3>
+      <span class="camera-subtitle">→ Постановка · Статус</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Дорогой постановочный кадр, киноязык.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Статус, контролируемый свет, постановочный кадр.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Имиджевые кампании, кинопортреты, рекламные кампании</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Документальный стиль, UGC, лёгкая лайфстайл-съёмка</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">Panavision DXL2 · 65mm Primo · cinematic framing · controlled light · shallow DOF · filmic contrast</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>Panavision DXL2, 65mm Primo, cinematic framing, controlled light, shallow DOF, filmic contrast, premium cinema look</div>
+
+    <!-- 14 ПЛЁНКА -->
+    <div class="camera-card">
+      <span class="camera-num">14 / 14</span>
+      <h3>Плёнка <em>point-and-shoot</em></h3>
+      <span class="camera-subtitle">→ Жизнь · Lifestyle</span>
+      <div class="camera-rows">
+        <div class="camera-row-item">
+          <span class="row-label">Цель</span>
+          <p>Спонтанность и жизнь, обаяние несовершенства.</p>
+        </div>
+        <div class="camera-row-item">
+          <span class="row-label">Эффект</span>
+          <p>Вспышка, тепло, спонтанность, несовершенство как стиль.</p>
+        </div>
+      </div>
+      <div class="use-grid">
+        <div class="use-item yes">
+          <span class="use-label">✓ Брать</span>
+          <p>Вечеринки, лайфстайл, личные моменты, молодёжный контент</p>
+        </div>
+        <div class="use-item no">
+          <span class="use-label">✕ Не брать</span>
+          <p>Коммерческий глянец, hi-tech, корпоративный контент</p>
+        </div>
+      </div>
+      <span class="formula-label">Формула</span>
+      <p class="formula-text">35mm film point-and-shoot · on-camera flash · warm imperfect color · film grain · candid</p>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагмент</span>35mm film point-and-shoot, on-camera flash, warm imperfect color, film grain, candid party snapshot, raw and alive</div>
+
+  </div>
+
+  <!-- ── ФОКУСНОЕ ── -->
+  <div class="g-section">
+    <div class="section-num">Раздел 02</div>
+    <h2>Фокусное <em>как приём</em></h2>
+    <p>Камера задаёт эмоцию, фокусное — дистанцию и давление кадра. Не «красивые слова», а физика взгляда на сцену.</p>
+
+    <div class="focal-card">
+      <div class="focal-mm">14–20</div>
+      <div class="focal-col">
+        <span class="col-label">Цель</span>
+        <p>Масштаб или искажение</p>
+      </div>
+      <div class="focal-col">
+        <span class="col-label">Эффект</span>
+        <p>Пространство давит, тревога</p>
+        <p style="margin-top:6px"><strong>→ Архитектура · Экстрим</strong></p>
+      </div>
+    </div>
+
+    <div class="focal-card">
+      <div class="focal-mm">24</div>
+      <div class="focal-col">
+        <span class="col-label">Цель</span>
+        <p>Персонаж + окружение</p>
+      </div>
+      <div class="focal-col">
+        <span class="col-label">Эффект</span>
+        <p>Человек как часть среды</p>
+        <p style="margin-top:6px"><strong>→ Сторителлинг · Кино</strong></p>
+      </div>
+    </div>
+
+    <div class="focal-card">
+      <div class="focal-mm">35</div>
+      <div class="focal-col">
+        <span class="col-label">Цель</span>
+        <p>Документальный реализм</p>
+      </div>
+      <div class="focal-col">
+        <span class="col-label">Эффект</span>
+        <p>Как взгляд наблюдателя</p>
+        <p style="margin-top:6px"><strong>→ Репортаж · Наблюдение</strong></p>
+      </div>
+    </div>
+
+    <div class="focal-card">
+      <div class="focal-mm">50</div>
+      <div class="focal-col">
+        <span class="col-label">Цель</span>
+        <p>Универсальный нейтрал</p>
+      </div>
+      <div class="focal-col">
+        <span class="col-label">Эффект</span>
+        <p>Как видит глаз, без давления</p>
+        <p style="margin-top:6px"><strong>→ Базовые сцены</strong></p>
+      </div>
+    </div>
+
+    <div class="focal-card">
+      <div class="focal-mm">85</div>
+      <div class="focal-col">
+        <span class="col-label">Цель</span>
+        <p>Киношный портрет, изоляция</p>
+      </div>
+      <div class="focal-col">
+        <span class="col-label">Эффект</span>
+        <p>Фокус на герое, «дорого»</p>
+        <p style="margin-top:6px"><strong>→ Арт · Реклама</strong></p>
+      </div>
+    </div>
+
+    <div class="focal-card">
+      <div class="focal-mm">105–135</div>
+      <div class="focal-col">
+        <span class="col-label">Цель</span>
+        <p>Премиум-портрет</p>
+      </div>
+      <div class="focal-col">
+        <span class="col-label">Эффект</span>
+        <p>Отстранённо, глянцево, элитно</p>
+        <p style="margin-top:6px"><strong>→ Имидж · Luxury</strong></p>
+      </div>
+    </div>
+
+    <div class="focal-card">
+      <div class="focal-mm">200+</div>
+      <div class="focal-col">
+        <span class="col-label">Цель</span>
+        <p>Эффект наблюдения</p>
+      </div>
+      <div class="focal-col">
+        <span class="col-label">Эффект</span>
+        <p>Зритель как скрытый наблюдатель</p>
+        <p style="margin-top:6px"><strong>→ Подглядывание · Дистанция</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ФИЗИКА СВЕТА ── -->
+  <div class="g-section">
+    <div class="section-num">Третий слой</div>
+    <h2>Физика <em>света</em></h2>
+    <p>AI понимает f / ISO / выдержку как конкретную физику, а не как украшение. Добавляй эти параметры — и получаешь точный световой рецепт, а не случайный кадр.</p>
+    <div class="physics-table">
+      <div class="physics-row">
+        <div class="physics-param">ƒ/1.4–2.8</div>
+        <div class="physics-desc">Сильное боке, изоляция героя</div>
+      </div>
+      <div class="physics-row">
+        <div class="physics-param">ƒ/4–5.6</div>
+        <div class="physics-desc">Больше в фокусе, реализм</div>
+      </div>
+      <div class="physics-row">
+        <div class="physics-param">ISO 100–200</div>
+        <div class="physics-desc">Чистый кадр, студийное качество</div>
+      </div>
+      <div class="physics-row">
+        <div class="physics-param">ISO высокий</div>
+        <div class="physics-desc">Зерно, репортаж, ночная съёмка</div>
+      </div>
+      <div class="physics-row">
+        <div class="physics-param">выдержка ↑</div>
+        <div class="physics-desc">Заморозка движения, чёткий кадр</div>
+      </div>
+      <div class="physics-row">
+        <div class="physics-param">выдержка ↓</div>
+        <div class="physics-desc">Смаз, динамика, движение в кадре</div>
+      </div>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Пример использования</span>...85mm, ƒ/2.8, ISO 100, 1/200s — AI рисует не «красиво», а конкретный свет</div>
+  </div>
+
+  <!-- ── ПРИЁМЫ ── -->
+  <div class="g-section">
+    <div class="section-num">Рычаги поверх камеры</div>
+    <h2><em>Приёмы</em></h2>
+    <p>Добавляются к любой камере и меняют характер кадра независимо от выбранного тела.</p>
+    <div class="technique-grid">
+      <div class="technique-item">
+        <div class="name">Dutch angle</div>
+        <div class="desc">Наклон кадра — тревога, «что-то не так»</div>
+      </div>
+      <div class="technique-item">
+        <div class="name">Anamorphic</div>
+        <div class="desc">Горизонтальные блики, широкий кадр, «кино»</div>
+      </div>
+      <div class="technique-item">
+        <div class="name">Macro</div>
+        <div class="desc">Фактура и детали: еда, ювелирка, косметика</div>
+      </div>
+      <div class="technique-item">
+        <div class="name">Fisheye</div>
+        <div class="desc">Искажение, экстрим: скейт, стрит, музыка</div>
+      </div>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт-фрагменты</span>dutch angle, tilted frame · anamorphic lens flares · macro lens · fisheye distortion</div>
+  </div>
+
+  <!-- ── СВЯЗКИ ── -->
+  <div class="g-section">
+    <div class="section-num">Ориентиры</div>
+    <h2><em>Связки</em> камера + оптика</h2>
+    <p>Ориентиры, а не обязательные формулы. Классические пары усиливают характер друг друга.</p>
+    <div class="combo-list">
+      <div class="combo-row">
+        <div class="combo-pair">ARRI Alexa Mini + Cooke S4</div>
+        <div class="combo-note">Драма и напряжение, глубокие тени</div>
+      </div>
+      <div class="combo-row">
+        <div class="combo-pair">RED Monstro + Panavision Primo</div>
+        <div class="combo-note">Сила и статус, насыщенный неон</div>
+      </div>
+      <div class="combo-row">
+        <div class="combo-pair">Sony A7 + 85mm GM</div>
+        <div class="combo-note">Доверие и фокус на герое</div>
+      </div>
+      <div class="combo-row">
+        <div class="combo-pair">Fujifilm X-T4 + 56mm ƒ/1.2</div>
+        <div class="combo-note">Тепло и душевность, мягкое зерно</div>
+      </div>
+      <div class="combo-row">
+        <div class="combo-pair">Leica SL2 + 50mm Summilux</div>
+        <div class="combo-note">Характер и авторская дистанция</div>
+      </div>
+      <div class="combo-row">
+        <div class="combo-pair">Hasselblad + 80mm</div>
+        <div class="combo-note">Премиум, глубина, вне времени</div>
+      </div>
+    </div>
+    <div class="callout"><p>IMAX — уточнение объектива не обязательно. Одно слово меняет весь масштаб кадра.</p></div>
+  </div>
+
+  <!-- ── ГАЙД-АГЕНТ ── -->
+  <div class="g-section">
+    <div class="section-num">ИИ-помощник</div>
+    <h2>Лень выбирать? <em>Выберет ИИ.</em></h2>
+    <p>Все дают список. Этот гайд идёт дальше: внутри — промпт для ИИ. Кидаешь его в GPT / DeepSeek / любого агента, отвечаешь на вопросы — получаешь камеру, оптику, параметры и готовый промпт под нужный инструмент.</p>
+    <div class="callout"><p>Опиши задачу → агент задаёт вопросы → выдаёт связку. Не наугад.</p></div>
+    <p>Скопируй оба блока ниже одним сообщением и вставь в GPT, DeepSeek или Claude.</p>
+
+    <div class="prompt-block"><span class="prompt-label">Часть 1 из 2 — скопируй</span>Ты — эксперт по языку камеры для AI-генерации изображений. Помогаешь подобрать камеру, оптику, фокусное, ракурс, дистанцию, глубину резкости, параметры и готовый промпт.
+
+ГЛАВНЫЙ ПРИНЦИП: сначала цель кадра — потом техника. Никогда не выбираешь камеру «просто красиво». Исходишь из того, что кадр должен сделать со зрителем: приблизить, отдалить, доверие, тревога, роскошь, масштаб, интимность, документальность, наблюдение.
+
+ПРАВИЛА: 1) Диалог на русском, финальный промпт на английском. 2) Вопросы строго по одному, жди ответа. 3) Пропускай нерелевантные типу объекта. 4) Не спрашивай уже сказанное. 5) Синтаксис промпта под инструмент: Nano Banana / GPT Image — прозой; Midjourney — через запятую. 6) Параметры переводи в визуал: не «85mm f/1.4», а «85mm portrait lens, camera pulled back, compressed soft background, shallow depth of field, strong subject isolation».
+
+ВОПРОСЫ (по одному, пропуская нерелевантные): 1. Что генерируем? 2. Для чего кадр? 3. Что должен сделать со зрителем? 4. Главный объект? 5. Эмоция/характер? 6. Где генеришь (GPT Image, Nano Banana Pro, Seedream, FLUX, Z Image, Midjourney, Kling/Seedance)? 7. Что в центре? 8. Формат? 9. Постановочный или живой? 10. Есть референс?</div>
+
+    <div class="prompt-block"><span class="prompt-label">Часть 2 из 2 — вставляй обе части одним сообщением</span>ФОКУСНОЕ: 14–24mm — масштаб, пространство, архитектура (осторожно с портретом). 28mm — lifestyle, улица, человек в среде. 35mm — универсальный cinematic, человек+окружение. 50mm — как видит глаз, классич. портрет. 70–85mm — портрет, красота, премиальность, fashion/beauty. 100–135mm — изоляция, сжатый фон, editorial, наблюдение. 200–300mm — компрессия, наблюдение издалека, спорт/папарацци. Macro 60–100mm — детали, текстура, еда, косметика.
+
+КАМЕРА: Full-frame — реализм, реклама, портрет. Medium format — премиум, luxury, beauty. Cinema — киносцена, нарратив. IMAX — эпик, масштаб. Vintage film — ностальгия, плёнка. Smartphone — UGC, естественность. CCTV — наблюдение, тревога. Drone — масштаб сверху, travel. Action cam — экстрим, POV.
+
+ФИНАЛ: 1) Цель кадра. 2) Камера+оптика+фокусное+дистанция+ГРИП. 3) Параметры как визуальные маркеры. 4) Готовый промпт на английском в синтаксисе нейронки. 5) Чего избегать (3–5). 6) опц. 1–2 альтернативы.
+
+ЕСЛИ ПРОСЯТ БЫСТРО: разумное предположение + базовый вариант, добавь «Сделал по вероятной задаче, хочешь точнее — уточним цель».
+ЕСЛИ ДАЛИ ПРОМПТ: что не работает → цель → камера/оптика → связка → переписанный промпт → чего избегать.
+
+ПЕРВОЕ СООБЩЕНИЕ: «Помогу подобрать язык камеры под задачу. Сначала цель — потом техника. Первый вопрос: что генерируем — человек, продукт, авто, интерьер, персонаж, сцена или другое?»</div>
+  </div>
+
+  <!-- ── СВЯЗЬ ── -->
+  <div class="g-section">
+    <div class="section-num">Связь</div>
+    <h2>Покажи <em>результат</em></h2>
+    <p>Если что-то застряло — пиши прямо в DM.</p>
+    <p>Покажешь свой результат с отметкой <strong>@AlikMolchanov.AI</strong> — репостну в Stories.</p>
+    <div class="callout"><p>Instagram: <a href="https://instagram.com/alikmolchanov.ai">@AlikMolchanov.AI</a> · Telegram: <a href="https://t.me/alikmolchanov">@alikmolchanov</a></p></div>
+  </div>
+
+</div><!-- /guide-body -->
+
+<footer class="guide-footer">
+  <div class="footer-logo">am.</div>
+  <div class="footer-links">
+    <a href="index.html">Портфолио</a>
+    <a href="index.html#downloads">Все материалы</a>
+    <a href="https://instagram.com/alikmolchanov.ai">Instagram</a>
+    <a href="https://t.me/alikmolchanov">Telegram</a>
+  </div>
+  <div class="copyright">© 2026 AlikMolchanov.AI — для личного использования. Не распространять.</div>
+</footer>
+
+</body>
+</html>
