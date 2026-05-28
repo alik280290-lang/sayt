@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference Boards: система из 6 бордов для AI-видео — Александр Молчанов</title>
+<meta name="description" content="Система из 6 reference board'ов для консистентного AI-видео через GPT Image 2. Character, Object, Pose, Location, Shot, Creature — промпты и инструкция от победителя VIDMK 2026.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0908'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Times' font-style='italic' font-size='20' fill='%23B8723F'%3Eam.%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0A0908;
+  --ink-2: #14110D;
+  --copper: #B8723F;
+  --ivory: #EDE5D6;
+  --cream: rgba(237,229,214,0.88);
+  --cream-2: rgba(237,229,214,0.55);
+  --cream-3: rgba(237,229,214,0.35);
+  --rule: rgba(237,229,214,0.12);
+  --serif: 'Bodoni Moda', 'Times New Roman', serif;
+  --sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--copper); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── HEADER ── */
+.site-header {
+  padding: 32px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+}
+.logo {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--copper);
+  text-decoration: none;
+}
+.back-link {
+  font-size: 13px;
+  color: var(--cream-2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.back-link:hover { color: var(--cream); text-decoration: none; }
+
+/* ── HERO ── */
+.guide-hero {
+  padding: 100px 48px 80px;
+  max-width: 860px;
+}
+.guide-tag {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+  border: 1px solid rgba(184,114,63,0.4);
+  padding: 5px 12px;
+  border-radius: 2px;
+  margin-bottom: 32px;
+}
+.guide-hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--ivory);
+  margin-bottom: 28px;
+}
+.guide-hero h1 em { font-style: italic; color: var(--copper); }
+.guide-hero .lede {
+  font-size: 18px;
+  color: var(--cream-2);
+  max-width: 600px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+}
+.meta-row { display: flex; gap: 40px; flex-wrap: wrap; }
+.meta-item .key {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  display: block;
+  margin-bottom: 4px;
+}
+.meta-item .val { font-size: 14px; color: var(--cream); }
+
+/* ── LAYOUT ── */
+.guide-body { max-width: 860px; padding: 0 48px 120px; }
+
+/* ── SECTION ── */
+.g-section { padding: 72px 0; border-top: 1px solid var(--rule); }
+.section-num {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  margin-bottom: 16px;
+}
+.g-section h2 {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 400;
+  color: var(--ivory);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+.g-section h2 em { font-style: italic; color: var(--copper); }
+.g-section h3 {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400;
+  color: var(--ivory);
+  margin: 36px 0 14px;
+  line-height: 1.3;
+}
+.g-section h3 em { font-style: italic; color: var(--copper); }
+.g-section p {
+  color: var(--cream-2);
+  margin-bottom: 20px;
+  max-width: 680px;
+}
+.g-section p strong { color: var(--cream); font-weight: 600; }
+.g-section ul, .g-section ol {
+  padding-left: 20px;
+  color: var(--cream-2);
+  max-width: 680px;
+  margin-bottom: 20px;
+}
+.g-section li { margin-bottom: 10px; }
+.g-section li strong { color: var(--cream); }
+
+/* ── BOARD CARD ── */
+.board-card {
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--copper);
+  border-radius: 4px;
+  padding: 32px 36px;
+  margin: 36px 0;
+  max-width: 760px;
+  background: var(--ink-2);
+}
+.board-card-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 48px;
+  color: var(--copper);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.board-card h3 {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 400;
+  color: var(--ivory);
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+.board-card h3 em { font-style: italic; color: var(--copper); }
+.board-card-when {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 16px;
+  display: block;
+}
+.board-card p { color: var(--cream-2); font-size: 15px; margin-bottom: 12px; }
+.board-card ul {
+  padding-left: 20px;
+  color: var(--cream-2);
+  font-size: 14px;
+  margin-bottom: 0;
+}
+.board-card li { margin-bottom: 6px; }
+
+/* ── PROMPT BLOCK ── */
+.prompt-block {
+  background: var(--ink-2);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--copper);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin: 28px 0;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--cream);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 760px;
+}
+.prompt-block .prompt-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* ── CALLOUT ── */
+.callout {
+  background: rgba(184,114,63,0.08);
+  border: 1px solid rgba(184,114,63,0.2);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  max-width: 680px;
+}
+.callout p { color: var(--cream); margin-bottom: 0; }
+.callout p::before { content: "→ "; color: var(--copper); }
+
+/* ── STACK GRID ── */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 28px 0;
+  max-width: 680px;
+}
+.stack-item { background: var(--ink-2); padding: 20px 24px; }
+.stack-item .name { font-size: 14px; font-weight: 600; color: var(--ivory); margin-bottom: 4px; }
+.stack-item .desc { font-size: 12px; color: var(--cream-3); line-height: 1.5; }
+
+/* ── STEP LIST ── */
+.step-list { margin: 28px 0; max-width: 680px; }
+.step { display: grid; grid-template-columns: 36px 1fr; gap: 16px; margin-bottom: 24px; align-items: start; }
+.step-num {
+  width: 36px; height: 36px;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--copper); flex-shrink: 0; margin-top: 2px;
+}
+.step-body .step-title { font-size: 15px; font-weight: 600; color: var(--ivory); margin-bottom: 4px; }
+.step-body p { font-size: 14px; margin-bottom: 0; }
+
+/* ── COMBO GRID ── */
+.combo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin: 28px 0; max-width: 680px; }
+.combo-item { background: var(--ink-2); padding: 24px 28px; }
+.combo-item .combo-title { font-size: 13px; font-weight: 600; color: var(--copper); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.combo-item p { font-size: 14px; color: var(--cream-2); margin-bottom: 0; }
+
+/* ── CHECKLIST ── */
+.checklist { list-style: none; padding: 0; max-width: 680px; margin: 20px 0; }
+.checklist li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14px; color: var(--cream-2);
+  display: flex; align-items: baseline; gap: 12px;
+}
+.checklist li::before { content: "✓"; color: var(--copper); font-size: 12px; flex-shrink: 0; }
+.checklist li strong { color: var(--cream); }
+
+/* ── FOOTER ── */
+.guide-footer {
+  border-top: 1px solid var(--rule);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.guide-footer .footer-logo {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--copper);
+}
+.guide-footer .footer-links { display: flex; gap: 32px; flex-wrap: wrap; }
+.guide-footer .footer-links a { font-size: 13px; color: var(--cream-2); }
+.guide-footer .footer-links a:hover { color: var(--ivory); text-decoration: none; }
+.guide-footer .copyright { font-size: 12px; color: var(--cream-3); width: 100%; }
+
+@media (max-width: 680px) {
+  .site-header { padding: 24px; }
+  .guide-hero { padding: 60px 24px 48px; }
+  .guide-body { padding: 0 24px 80px; }
+  .board-card { padding: 24px 20px; }
+  .combo-grid { grid-template-columns: 1fr; }
+  .guide-footer { padding: 32px 24px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="logo">am.</a>
+  <a href="index.html#downloads" class="back-link">← Материалы</a>
+</header>
+
+<div class="guide-hero">
+  <div class="guide-tag">AI Video Production · 2026</div>
+  <h1>Reference Boards:<br><em>система из 6 бордов</em><br>для консистентного AI-видео</h1>
+  <p class="lede">GPT Image 2 + структурированный визуальный документ = персонаж не плавает между кадрами. Character, Object, Pose, Location, Shot, Creature — промпты и инструкция внутри.</p>
+  <div class="meta-row">
+    <div class="meta-item"><span class="key">Автор</span><span class="val">@AlikMolchanov.AI</span></div>
+    <div class="meta-item"><span class="key">Стек</span><span class="val">GPT Image 2 · Higgsfield · PicsArt</span></div>
+    <div class="meta-item"><span class="key">Бордов</span><span class="val">6 типов</span></div>
+    <div class="meta-item"><span class="key">Уровень</span><span class="val">Практик</span></div>
+  </div>
+</div>
+
+<div class="guide-body">
+
+  <!-- ── ЧТО ЭТО ── -->
+  <div class="g-section">
+    <div class="section-num">Введение</div>
+    <h2>Что такое <em>reference board</em></h2>
+    <p>Reference board — это структурированный визуальный документ, который ты скармливаешь AI-модели как единственный источник правды. Один борд держит лицо персонажа, пропорции продукта, атмосферу локации — и каждая следующая генерация остаётся консистентной.</p>
+    <p>Это решает главную боль AI-видео — то, что в каждом новом кадре персонаж может стать другим. Лицо съезжает, одежда меняется, рост гуляет. Reference board фиксирует всё в одном документе и заставляет модель ему следовать.</p>
+    <div class="callout"><p>В гайде — 6 типов бордов: Character, Object, Pose, Location, Shot, Creature. Каждый берёт одну картинку и превращает её в полноценный production-документ.</p></div>
+    <p>Я гоняю эту систему каждый день — на кейсах для Kabrita, KGM, PROCAR. Когда нужно держать одного и того же персонажа через 20 сцен — нет другого способа.</p>
+  </div>
+
+  <!-- ── СТЕК ── -->
+  <div class="g-section">
+    <div class="section-num">Инструменты</div>
+    <h2><em>Стек</em></h2>
+    <p>Магию делает GPT Image 2 — новая мультимодальная модель OpenAI, которая особенно хорошо читает плотные визуальные лейауты и следует структуре.</p>
+    <p>Доступ есть в двух инструментах, оба работают одинаково:</p>
+    <div class="stack-grid">
+      <div class="stack-item">
+        <div class="name">Higgsfield AI</div>
+        <div class="desc">higgsfield.ai → Create → Image. Рядом есть Seedance 2.0, Kling — продолжаешь пайплайн до видео не выходя из инструмента. <strong>Рекомендую.</strong></div>
+      </div>
+      <div class="stack-item">
+        <div class="name">PicsArt Flow</div>
+        <div class="desc">picsart.com/create/workflows → Image Node → AI Image Node. В настройках ноды выбираешь GPT Image 2. Промпт работает один в один.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5 ШАГОВ ── -->
+  <div class="g-section">
+    <div class="section-num">Процесс</div>
+    <h2>Как сгенерировать борд <em>за 5 шагов</em></h2>
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Готовишь исходник</div>
+          <p>Чистая, детальная картинка — портрет, продукт, локация. Чем лучше исходник, тем точнее борд. Тёмная мутная фотка → борд развалится.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Загружаешь в Higgsfield или PicsArt Flow</div>
+          <p>Higgsfield: Create → Image. PicsArt: Create → Workflows → Image Node → AI Image Node.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Выбираешь модель GPT Image 2</div>
+          <p>Она особенно хорошо читает плотные визуальные лейауты — другие модели хуже держат структуру борда.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Копируешь промпт нужного борда</div>
+          <p>Каждый промпт ниже. Не сокращай — каждая деталь говорит модели какие именно панели генерировать.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Жмёшь Generate</div>
+          <p>Получаешь развёрнутый production-document. Если первая генерация кривая — перегенерируй. GPT Image 2 даёт вариативность.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRO TIPS ── -->
+  <div class="g-section">
+    <div class="section-num">Советы</div>
+    <h2>Pro tips <em>от практика</em></h2>
+    <ul class="checklist">
+      <li><strong>Источник решает всё.</strong> Портретные или квадратные кропы работают лучше для персонажей и существ. Широкоугольные кадры — для локаций.</li>
+      <li><strong>Перегенерируй при кривом результате.</strong> GPT Image 2 даёт вариативность, лейаут может слегка плавать между прогонами.</li>
+      <li><strong>Стакай борды.</strong> Сначала Character Board, потом его результат как исходник для Pose Board — двойная консистентность.</li>
+      <li><strong>Shot Board — самое мощное.</strong> Один кейфрейм → готовая 12-шотовая раскадровка для Seedance.</li>
+      <li><strong>Все подписи на бордах — на английском.</strong> Не переводи, GPT Image 2 хуже следует русскому в плотной типографике.</li>
+      <li><strong>Рекламу для русского рынка</strong> гони с русскими надписями в финальных кадрах, но борд держи на английском как референс структуры.</li>
+    </ul>
+  </div>
+
+  <!-- ── 01 CHARACTER ── -->
+  <div class="g-section">
+    <div class="section-num">Борд 01</div>
+    <h2><em>Character Board</em></h2>
+    <div class="board-card">
+      <div class="board-card-num">01</div>
+      <h3>Character <em>Board</em></h3>
+      <span class="board-card-when">Когда использовать</span>
+      <p>Любой человек, портрет, AI-инфлюенсер. Перед AI-видео с одним героем — всегда сначала Character, потом Pose, потом Shot.</p>
+      <p><strong>Что внутри:</strong></p>
+      <ul>
+        <li>Hero portrait + метадата: имя, возраст, рост, телосложение, волосы, глаза, аутфит, характер</li>
+        <li>Panel 01 — Views: Front · 3/4 Left · Side Left · Back · 3/4 Right</li>
+        <li>Panel 02 — Expressions: Neutral · Smile · Thoughtful · Focused · Serious</li>
+        <li>Panel 03 — Details: face/eyes close-up · distinctive outfit detail</li>
+        <li>Panel 04 — Outfit flat-lays: jacket · shirt · trousers · watch · shoes</li>
+        <li>Panel 05 — Lighting: Soft Daylight · Warm Tungsten · Cool Blue Night · Hard Cinematic Side-Light</li>
+        <li>Panel 06 — Color palette: 6 HEX свотчей</li>
+      </ul>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт — скопируй целиком</span>Create a single high-resolution, densely packed character reference sheet titled "CHARACTER BOARD" using the attached photo of the person as the single source of truth for face, hair, eyes, skin tone and body proportions. The same person must appear in every panel — same age, same outfit. All on-image labels in ENGLISH. Editorial reference-board layout with a near-black background #0F1113, thin cool-white accent edge lighting, faint film-grain overlay, monochrome studio UI, no colored neon. Include a large hero portrait with metadata block: NAME · AGE · HEIGHT · BUILD · HAIR · EYES · FEATURES · OUTFIT · CHARACTER · MOOD. PANEL 01 — VIEWS (5 full-body shots, neutral backdrop): FRONT · 3/4 LEFT · SIDE LEFT · BACK · 3/4 RIGHT. PANEL 02 — EXPRESSIONS (5 tight headshots): NEUTRAL · SMILE · THOUGHTFUL · FOCUSED · SERIOUS. PANEL 03 — DETAILS (2 macros): face/eyes close-up · distinctive outfit detail. PANEL 04 — OUTFIT FLAT-LAYS (5 isolated product shots on dark background): jacket · shirt · trousers · watch · shoes. PANEL 05 — LIGHTING/MOOD (4 same-pose portraits): SOFT DAYLIGHT · WARM TUNGSTEN INTERIOR · COOL BLUE NIGHT · HARD CINEMATIC SIDE-LIGHT. PANEL 06 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this character board as a visual reference for consistent depiction of the character across all generations." Style: Cinematic · Realistic · Monochrome UI. Photorealistic. 8K, fine grain.</div>
+  </div>
+
+  <!-- ── 02 OBJECT ── -->
+  <div class="g-section">
+    <div class="section-num">Борд 02</div>
+    <h2><em>Object Board</em></h2>
+    <div class="board-card">
+      <div class="board-card-num">02</div>
+      <h3>Object <em>Board</em></h3>
+      <span class="board-card-when">Когда использовать</span>
+      <p>Любой объект, продукт, реквизит. Идеально для рекламы товара, где нужно держать его геометрию через всю серию кадров. Работает на чём угодно — от меча до автомобильного диска R20.</p>
+      <p><strong>Что внутри:</strong></p>
+      <ul>
+        <li>Hero shot + метадата: название, эра, материал, размеры, вес, описание, ключевые фичи</li>
+        <li>Panel 01 — Views (6 ракурсов на плинте): Front · 3/4 Left · Left Side · Back · 3/4 Right · Top-Down</li>
+        <li>Panel 02 — Details (4 макро): handle/grip · body/blade · engraving/maker's mark · edge/wear</li>
+        <li>Panel 03 — Lighting/Mood: 4 сценария света</li>
+        <li>Panel 04 — Color palette: 6 HEX свотчей</li>
+      </ul>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт — скопируй целиком</span>Create a single high-resolution, densely packed product/object reference sheet titled "OBJECT BOARD" using the attached photo of the object as the single source of truth for design, materials, proportions, color and detailing. The object must be identical across every panel. All on-image labels in ENGLISH. Editorial product-design board layout with a near-black background #0F1113, thin cool-white accent edge lighting, faint film-grain overlay, premium monochrome industrial-design UI, no colored neon. Include a prominent hero product shot with metadata block: NAME · ERA · ORIGIN · MATERIAL · DIMENSIONS · WEIGHT · DESCRIPTION · KEY FEATURES · CONDITION · PURPOSE. PANEL 01 — VIEWS (6 angles on neutral plinth): FRONT · 3/4 LEFT · LEFT SIDE · BACK · 3/4 RIGHT · TOP-DOWN. PANEL 02 — DETAILS (4 macros): handle/grip · body/blade · engraving/maker's mark · edge/wear. PANEL 03 — LIGHTING/MOOD (4 same-angle portraits): SOFT DAYLIGHT · WARM TUNGSTEN · COOL BLUE NIGHT · HARD CINEMATIC SIDE-LIGHT. PANEL 04 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this product board as a visual reference for consistent depiction of the object across all generations." Style: Premium · Realistic · Monochrome UI. Photorealistic. 8K, fine grain.</div>
+  </div>
+
+  <!-- ── 03 POSE ── -->
+  <div class="g-section">
+    <div class="section-num">Борд 03</div>
+    <h2><em>Pose Board</em></h2>
+    <div class="board-card">
+      <div class="board-card-num">03</div>
+      <h3>Pose <em>Board</em></h3>
+      <span class="board-card-when">Когда использовать</span>
+      <p>Перед генерацией AI-видео с движением. Скармливаешь персонажу — он не плавает между кадрами. Стакается с Character Board для двойной консистентности.</p>
+      <p><strong>Что внутри:</strong></p>
+      <ul>
+        <li>Hero standing shot + метадата: имя, возраст, рост, аутфит, pose language, центр тяжести, доминантная рука</li>
+        <li>Panel 01 — Basic poses: Stand · Sit · Walk · Run · Jump</li>
+        <li>Panel 02 — Action poses: Fight Stance · Throw · Dodge · Climb · Land</li>
+        <li>Panel 03 — Expressions: Neutral · Laugh · Angry · Sad · Surprised</li>
+        <li>Panel 04 — Angle coverage: Front · 3/4 · Side · Back</li>
+        <li>Panel 05 — Color palette: 6 HEX свотчей</li>
+      </ul>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт — скопируй целиком</span>Create a single high-resolution, densely packed character pose reference sheet titled "POSE BOARD" using the attached photo of the character as the single source of truth for face, hair, body proportions and outfit. The character must be identical across every panel. All on-image labels in ENGLISH. Editorial animation-reference layout with a near-black background #0F1113, thin cool-white accent edge lighting, faint film-grain overlay, studio reference UI, no colored neon. Include a large full-body hero standing shot with metadata block: NAME · AGE · BUILD · HEIGHT · OUTFIT · POSE LANGUAGE · CENTER OF GRAVITY · DOMINANT HAND · PURPOSE: animation and video-generation reference. PANEL 01 — BASIC POSES (5 full-body shots): STAND · SIT · WALK · RUN · JUMP. PANEL 02 — ACTION POSES (5 dynamic shots): FIGHT STANCE · THROW · DODGE · CLIMB · LAND. PANEL 03 — EXPRESSIONS (5 tight headshots): NEUTRAL · LAUGH · ANGRY · SAD · SURPRISED. PANEL 04 — ANGLE COVERAGE (4 standing portraits): FRONT · 3/4 · SIDE · BACK. PANEL 05 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this pose sheet as a visual reference for consistent animation of the character across all generations." Style: Animation Ready · Realistic · Monochrome UI. Photorealistic. 8K, fine grain.</div>
+  </div>
+
+  <!-- ── 04 LOCATION ── -->
+  <div class="g-section">
+    <div class="section-num">Борд 04</div>
+    <h2><em>Location Board</em></h2>
+    <div class="board-card">
+      <div class="board-card-num">04</div>
+      <h3>Location <em>Board</em></h3>
+      <span class="board-card-when">Когда использовать</span>
+      <p>Любое окружение: улицы, леса, интерьеры, sci-fi пространства, фэнтези миры. Когда нужно держать одну локацию через серию сцен. Особенно полезно для AI-короткометражек.</p>
+      <p><strong>Что внутри:</strong></p>
+      <ul>
+        <li>Hero shot + метадата: название, тип, эра, масштаб, архитектура, материалы, атмосфера</li>
+        <li>Panel 01 — Views (5 ракурсов): Wide · Mid · Tight · Alt Angle · Overhead</li>
+        <li>Panel 02 — Time of day: Dawn · Noon · Dusk · Night</li>
+        <li>Panel 03 — Details: материал/текстура · архитектурная деталь</li>
+        <li>Panel 04 — Set dressing/props: 5 пропов на тёмном фоне</li>
+        <li>Panel 05 — Weather/Mood: Clear Sunny · Overcast · Rain-Soaked · Misty Fog</li>
+        <li>Panel 06 — Color palette: 6 HEX свотчей</li>
+      </ul>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт — скопируй целиком</span>Create a single high-resolution, densely packed location reference sheet titled "LOCATION BOARD" using the attached photo of the location as the single source of truth for its architecture, atmosphere, lighting, materials and color palette. The space must be identical across every panel. All on-image labels in ENGLISH. Editorial location-reference board layout with a near-black background #0F1113, thin cool-white accent edge lighting, faint film-grain overlay, production-grade location-scout UI, no colored neon. Include a prominent hero shot with metadata block: NAME · TYPE · ERA · SCALE · ARCHITECTURE · MATERIALS · ATMOSPHERE · DEFAULT TIME · DEFAULT WEATHER · PURPOSE. PANEL 01 — VIEWS (5 shots, identical lighting): WIDE · MID · TIGHT · ALT ANGLE · OVERHEAD. PANEL 02 — TIME OF DAY (4 same-angle shots): DAWN · NOON · DUSK · NIGHT. PANEL 03 — DETAILS (2 macros): material/texture close-up · architectural detail. PANEL 04 — SET DRESSING/PROPS (5 isolated prop studies on dark background). PANEL 05 — WEATHER/MOOD (4 shots): CLEAR SUNNY · OVERCAST · RAIN-SOAKED · MISTY FOG. PANEL 06 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this location board as a visual reference for consistent depiction of the environment across all generations." Style: Modern · Realistic · Monochrome UI. Photorealistic. 8K, fine grain.</div>
+  </div>
+
+  <!-- ── 05 SHOT ── -->
+  <div class="g-section">
+    <div class="section-num">Борд 05</div>
+    <h2><em>Shot Board</em></h2>
+    <div class="board-card">
+      <div class="board-card-num">05</div>
+      <h3>Shot <em>Board</em></h3>
+      <span class="board-card-when">Когда использовать</span>
+      <p>Когда у тебя есть одна сильная картинка и нужно превратить её в сцену. Берёт один кейфрейм и раскладывает его на готовую 12-шотовую раскадровку. Экономит часы раскадровки.</p>
+      <div class="callout"><p>Самое мощное оружие AI-фильммейкера. Готово для прямой передачи в Seedance.</p></div>
+      <p><strong>Что внутри:</strong></p>
+      <ul>
+        <li>Source keyframe + метадата сцены: scene, act, runtime, setting, characters, emotional arc, camera style, color script</li>
+        <li>Panel 01 — Shot sequence (12 кадров): Establishing Wide → Character Enters → OTS → Close-Up → Insert → Counter OTS → Two-Shot → Tracking → Low Angle Wide → ECU Eyes → Slow Pull-Back → Wide Resolution</li>
+        <li>Panel 02 — Key emotional beats: 3 драматических close-up</li>
+        <li>Panel 03 — Camera notes: lens, motion, framing, height</li>
+        <li>Panel 04 — Lighting continuity: 4 кадра</li>
+        <li>Panel 05 — Coverage types: Wide · Medium · Close-Up · Insert · OTS</li>
+        <li>Panel 06 — Color palette: 6 HEX свотчей</li>
+      </ul>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт — скопируй целиком</span>Create a single high-resolution, densely packed storyboard reference sheet titled "SHOT BOARD" using the attached photo as the single source keyframe. Generate a sequential 12-shot storyboard that breaks the scene into a coherent visual progression — same character(s), same location, same lighting continuity — as if filmed as continuous coverage. All on-image labels in ENGLISH. Editorial storyboard layout with a near-black background #0F1113, thin cool-white accent edge lighting, faint film-grain overlay, production-grade storyboard UI, monochrome design, no colored neon. Include a prominent source keyframe with metadata block: SCENE · ACT · SHOT COUNT: 12 · RUNTIME ~30s · SETTING · CHARACTERS · EMOTIONAL ARC · CAMERA STYLE · COLOR SCRIPT · EDIT STYLE. PANEL 01 — SHOT SEQUENCE (12 frames): 01 ESTABLISHING WIDE · 02 CHARACTER ENTERS — MEDIUM · 03 OVER-THE-SHOULDER · 04 CLOSE-UP — REACTION · 05 INSERT — OBJECT DETAIL · 06 COUNTER OTS · 07 TWO-SHOT MEDIUM · 08 TRACKING SHOT · 09 LOW ANGLE WIDE · 10 EXTREME CLOSE-UP — EYES · 11 SLOW PULL-BACK · 12 WIDE — RESOLUTION. PANEL 02 — KEY EMOTIONAL BEATS (3 dramatic close-ups). PANEL 03 — CAMERA NOTES (lens choices, motion, framing, height). PANEL 04 — LIGHTING CONTINUITY (4 frames). PANEL 05 — COVERAGE TYPES (Wide, Medium, Close-Up, Insert, OTS). PANEL 06 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this shot board as a visual reference for consistent scene breakdown across all generations." Style: Cinematic · Realistic · Continuous. Photorealistic. 8K, fine grain.</div>
+  </div>
+
+  <!-- ── 06 CREATURE ── -->
+  <div class="g-section">
+    <div class="section-num">Борд 06</div>
+    <h2><em>Creature Board</em></h2>
+    <div class="board-card">
+      <div class="board-card-num">06</div>
+      <h3>Creature <em>Board</em></h3>
+      <span class="board-card-when">Когда использовать</span>
+      <p>Любые не-человеческие персонажи. Особенно полезно когда нужно держать сложную анатомию через несколько сцен. Для AI-генерируемых монстров, животных, фэнтези-существ, sci-fi пришельцев.</p>
+      <p><strong>Что внутри:</strong></p>
+      <ul>
+        <li>Hero portrait + метадата: вид, размер, вес, habitat, диета, темперамент, distinct features, abilities, lore note</li>
+        <li>Panel 01 — Views (5 ракурсов): Front · 3/4 Left · Side Left · Back · 3/4 Right</li>
+        <li>Panel 02 — Expressions/Emotions: Calm · Hunting · Roaring · Curious · Wounded</li>
+        <li>Panel 03 — Anatomy details: Eyes · Teeth/Mouth · Skin/Scales/Fur · Claw/Limb/Wing</li>
+        <li>Panel 04 — Scale comparison: рядом с человеком 1.8м и линейкой 30см</li>
+        <li>Panel 05 — Behavior/Poses: Resting · Stalking · Attacking · Fleeing</li>
+        <li>Panel 06 — Color palette: 6 HEX свотчей</li>
+      </ul>
+    </div>
+    <div class="prompt-block"><span class="prompt-label">Промпт — скопируй целиком</span>Create a single high-resolution, densely packed creature reference sheet titled "CREATURE BOARD" using the attached image of the creature as the single source of truth for anatomy, skin/scale/fur texture, color and proportions. The creature must be identical across every panel. All on-image labels in ENGLISH. Editorial creature-design board layout with a near-black background #0F1113, thin cool-white accent edge lighting, faint film-grain overlay, VFX-studio creature-design UI, monochrome, no colored neon. Include a large hero portrait with metadata block: NAME/SPECIES · AGE · SIZE · WEIGHT · HABITAT · DIET · TEMPERAMENT · DISTINCT FEATURES (3-5 bullets) · ABILITIES/TRAITS (3-4 bullets) · LORE NOTE. PANEL 01 — VIEWS (5 full-body angles): FRONT · 3/4 LEFT · SIDE LEFT · BACK · 3/4 RIGHT. PANEL 02 — EXPRESSIONS/EMOTIONS (5 head close-ups): CALM · HUNTING · ROARING · CURIOUS · WOUNDED. PANEL 03 — ANATOMY DETAILS (4 macros): EYES · TEETH/MOUTH · SKIN/SCALES/FUR TEXTURE · CLAW/LIMB/WING. PANEL 04 — SCALE COMPARISON (beside 1.8m human + 30cm ruler). PANEL 05 — BEHAVIOR/POSES (4 environmental shots): RESTING · STALKING · ATTACKING · FLEEING. PANEL 06 — COLOR PALETTE (6 HEX swatches). Bottom: "Use this creature board as a visual reference for consistent depiction of the creature across all generations." Style: VFX Ready · Realistic · Monochrome UI. Photorealistic. 8K, fine grain.</div>
+  </div>
+
+  <!-- ── КОМБИНАЦИИ ── -->
+  <div class="g-section">
+    <div class="section-num">Продвинутый уровень</div>
+    <h2>Комбинации <em>бордов</em></h2>
+    <p>Реальная сила системы — когда стакаешь борды один в другой. Результат первого становится исходником для следующего, и консистентность копится.</p>
+    <div class="combo-grid">
+      <div class="combo-item">
+        <div class="combo-title">Character → Pose</div>
+        <p>Сначала строишь полную character-bible. Потом её результат скармливаешь в Pose Board. Двойная консистентность лица и тела под анимацию.</p>
+      </div>
+      <div class="combo-item">
+        <div class="combo-title">Character → Shot</div>
+        <p>Один и тот же персонаж через целую кинематографическую сцену. Идеально для AI-короткометражек.</p>
+      </div>
+      <div class="combo-item">
+        <div class="combo-title">Location → Shot</div>
+        <p>Консистентность окружения, запеченная в раскадровку. Каждый из 12 кадров живёт в одной локации с одинаковыми правилами света.</p>
+      </div>
+      <div class="combo-item">
+        <div class="combo-title">Creature → Pose</div>
+        <p>Не-человеческий персонаж под анимацию в Seedance с полным behavioral референсом.</p>
+      </div>
+      <div class="combo-item">
+        <div class="combo-title">Object → Shot</div>
+        <p>Проп получает собственное кинематографическое раскрытие. Полезно для рекламных тизеров продукта.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEEDANCE ── -->
+  <div class="g-section">
+    <div class="section-num">Финальный шаг</div>
+    <h2>Интеграция <em>с Seedance</em></h2>
+    <p>Когда борд готов, его 12-шотовая последовательность (Shot Board) переходит прямо в видео-генерацию.</p>
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Делаю Character Board из портрета</div>
+          <p>Исходник — чистый портрет, желательно нейтральный фон.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Его результат → исходник для Shot Board</div>
+          <p>Character Board стал источником правды. Теперь Shot Board использует его как кейфрейм.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Каждый из 12 шотов → кейфрейм в Seedance</div>
+          <p>Shot Board даёт 12 готовых кадров. Каждый идёт в Seedance как отдельный кейфрейм.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">В промпте Seedance — @Image1 несколько раз</div>
+          <p>Это усиливает привязку к референсу и держит консистентность через весь клип.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Цветокор и монтаж</div>
+          <p>Cold blue night + warm amber lights, монтаж staccato без dissolves. Так я делал кейс Kabrita для VIDMK — взял победу в номинации Best AI Realism.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── КОНТАКТЫ ── -->
+  <div class="g-section">
+    <div class="section-num">Связь</div>
+    <h2>Покажи <em>результат</em></h2>
+    <p>Если что-то застряло — пиши прямо в DM.</p>
+    <p>Покажешь свой результат с отметкой <strong>@AlikMolchanov.AI</strong> — репостну в Stories.</p>
+    <div class="callout"><p>Instagram: <a href="https://instagram.com/alikmolchanov.ai">@AlikMolchanov.AI</a> · Telegram: <a href="https://t.me/alikmolchanov">@alikmolchanov</a></p></div>
+  </div>
+
+</div><!-- /guide-body -->
+
+<footer class="guide-footer">
+  <div class="footer-logo">am.</div>
+  <div class="footer-links">
+    <a href="index.html">Портфолио</a>
+    <a href="index.html#downloads">Все материалы</a>
+    <a href="https://instagram.com/alikmolchanov.ai">Instagram</a>
+    <a href="https://t.me/alikmolchanov">Telegram</a>
+  </div>
+  <div class="copyright">© 2026 AlikMolchanov.AI — для личного использования. Не распространять.</div>
+</footer>
+
+</body>
+</html>
