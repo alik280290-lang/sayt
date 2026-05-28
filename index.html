@@ -1145,6 +1145,54 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-variation-settings: "opsz" 20;
 }
 
+/* ─── DOWNLOADS ─── */
+.dl-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  border: 1px solid var(--rule); margin-top: 80px;
+}
+.dl-card {
+  padding: 56px 48px; display: flex; flex-direction: column; gap: 28px;
+  border-right: 1px solid var(--rule);
+  transition: background 0.5s var(--ease);
+}
+.dl-card:last-child { border-right: none; }
+.dl-card:hover { background: var(--ink-2); }
+.dl-icon {
+  width: 48px; height: 48px; flex-shrink: 0;
+  color: var(--copper);
+}
+.dl-card-title {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(22px, 2vw, 30px); line-height: 1.15; letter-spacing: -0.02em;
+  color: var(--ivory); font-variation-settings: "opsz" 30;
+}
+.dl-card-title .italic { font-style: italic; color: var(--copper); }
+.dl-card-desc {
+  font-family: var(--serif); font-size: 16px; line-height: 1.6;
+  color: var(--cream-2); font-variation-settings: "opsz" 18;
+  flex: 1;
+}
+.dl-card-meta {
+  font-family: var(--sans); font-size: 12px; color: var(--cream-3);
+  text-transform: uppercase; letter-spacing: 0.16em;
+}
+.dl-btn {
+  margin-top: auto; align-self: flex-start;
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.22em;
+  color: var(--copper); padding: 14px 0;
+  border-bottom: 1px solid var(--copper);
+  transition: color 0.4s var(--ease), border-color 0.4s var(--ease), gap 0.4s var(--ease);
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.dl-btn:hover { color: var(--ivory); border-color: var(--ivory); gap: 16px; }
+.dl-btn .arrow { font-style: italic; }
+@media (max-width: 900px) {
+  .dl-grid { grid-template-columns: 1fr; }
+  .dl-card { border-right: none; border-bottom: 1px solid var(--rule); padding: 40px 24px; }
+  .dl-card:last-child { border-bottom: none; }
+}
+
 /* ─── CONTACT ─── */
 .contact { padding: 200px 0 160px; }
 .contact-grid {
@@ -1516,6 +1564,7 @@ html.lenis, html.lenis body { height: auto; }
     <li><a href="#services">Услуги</a></li>
     <li><a href="#process">Процесс</a></li>
     <li><a href="#pricing">Цены</a></li>
+    <li><a href="#downloads">Материалы</a></li>
   </ul>
   <div class="nav-right">
     <a href="https://t.me/alikmolchanov" class="nav-cta magnetic" data-magnetic>Написать в Telegram</a>
@@ -1529,6 +1578,7 @@ html.lenis, html.lenis body { height: auto; }
   <a href="#services">Услуги</a>
   <a href="#process">Процесс</a>
   <a href="#pricing">Цены</a>
+  <a href="#downloads">Материалы</a>
   <a href="https://t.me/alikmolchanov" class="mm-cta">Написать в Telegram <span class="arrow">→</span></a>
 </div>
 
@@ -2371,6 +2421,68 @@ html.lenis, html.lenis body { height: auto; }
         <summary data-num="10">Подписываете NDA? Кому принадлежат права?</summary>
         <div class="answer">NDA — да, по запросу, до начала работы. Все имущественные права на финальные материалы переходят к вам после оплаты. Я могу использовать работу в портфолио — но только если вы разрешите. Если нет — материалы остаются исключительно у вас, в портфолио не идут.</div>
       </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DOWNLOADS ═══ -->
+<section class="section" id="downloads">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="num">05<span class="total"> / 05</span></div>
+        <div class="label lbl">Материалы</div>
+      </div>
+      <div>
+        <h2>Полезные файлы — <span class="italic">скачайте бесплатно.</span></h2>
+        <p class="lede">Гайды, шаблоны и инструкции по работе с AI-контентом. Забирайте и используйте в своих проектах.</p>
+      </div>
+    </div>
+    <div class="dl-grid">
+
+      <div class="dl-card reveal">
+        <svg class="dl-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="4" width="28" height="36" rx="3" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M16 14h16M16 21h16M16 28h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M32 36l4 4m0 0l4-4m-4 4V30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <h3 class="dl-card-title">Гайд по созданию <span class="italic">портфолио-сайта</span></h3>
+        </div>
+        <p class="dl-card-desc">Пошаговая инструкция: как сделать портфолио как у меня — с нуля, бесплатно, через Claude и GitHub Pages. Без кода и дизайнера.</p>
+        <div class="dl-card-meta">HTML · Открывается в браузере</div>
+        <a href="guide.html" class="dl-btn" download>Скачать гайд <span class="arrow">↓</span></a>
+      </div>
+
+      <div class="dl-card reveal">
+        <svg class="dl-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="4" width="28" height="36" rx="3" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M16 14h16M16 21h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="30" cy="32" r="8" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M28 32h4m-2-2v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h3 class="dl-card-title">Промпты для <span class="italic">AI-видео</span></h3>
+        </div>
+        <p class="dl-card-desc">Сборник рабочих промптов для генерации видео под рекламу и соцсети. Форматы под Reels, сторис и продуктовые ролики — с пояснениями.</p>
+        <div class="dl-card-meta">Скоро</div>
+        <span class="dl-btn" style="opacity:0.35;cursor:default;pointer-events:none;">В разработке <span class="arrow">↓</span></span>
+      </div>
+
+      <div class="dl-card reveal">
+        <svg class="dl-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="4" width="28" height="36" rx="3" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M16 14h16M16 21h16M16 28h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14 38h20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h3 class="dl-card-title">Шаблон брифа <span class="italic">для AI-продакшна</span></h3>
+        </div>
+        <p class="dl-card-desc">Короткий бриф на 1 страницу — для тех, кто хочет заказать AI-контент. Заполните и отправьте — сразу понятно, что нужно сделать.</p>
+        <div class="dl-card-meta">Скоро</div>
+        <span class="dl-btn" style="opacity:0.35;cursor:default;pointer-events:none;">В разработке <span class="arrow">↓</span></span>
+      </div>
+
     </div>
   </div>
 </section>
